@@ -1,0 +1,417 @@
+/* ==========================================================================
+   Bennett Law Office — homepage, CENTER LAYOUT version (desktop)
+   Built from the Paper page "Center Layout".
+   Every size is design px (1440 artboard) × --u, so the page scales with width.
+   Letter-spacing is never set. Line heights are copied from Paper as-is.
+   ========================================================================== */
+
+@font-face {
+  font-family: "Successor";
+  src: url("../assets/fonts/successor-light.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Malamocco";
+  src: url("../assets/fonts/malamocco-regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --color-off-black: #161616;
+  --color-off-white: #f2efdd;
+  --color-blue: #2c4a9b;
+  --color-blue-grey: #878a91;
+
+  --font-display: "Successor", Georgia, serif;
+  --font-body: "Malamocco", system-ui, sans-serif;
+
+  /* 1 design pixel at the 1440px artboard */
+  --u: calc(100vw / 1440);
+  --margin: calc(20 * var(--u));
+  --border: max(1px, calc(2 * var(--u)));
+
+  /* Extra scroll the "reveal" view holds for. Keep in sync with HOLD in js/main.js. */
+  --hold: 10vh;
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html, body { margin: 0; padding: 0; }
+
+/* Lenis smooth scroll */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+body {
+  background: var(--color-blue);
+  color: var(--color-off-black);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, p, ul, footer { margin: 0; padding: 0; }
+ul { list-style: none; }
+img { display: block; }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+   Type styles (sizes / line heights straight from Paper)
+   -------------------------------------------------------------------------- */
+.t-display-44 { font-family: var(--font-display); font-weight: 300; font-size: calc(44 * var(--u)); line-height: calc(54 * var(--u)); text-transform: uppercase; }
+.t-display-32 { font-family: var(--font-display); font-weight: 300; font-size: calc(32 * var(--u)); line-height: calc(40 * var(--u)); text-transform: uppercase; }
+.t-display-24 { font-family: var(--font-display); font-weight: 300; font-size: calc(24 * var(--u)); line-height: calc(30 * var(--u)); text-transform: uppercase; }
+.t-body-24    { font-family: var(--font-body); font-weight: 400; font-size: calc(24 * var(--u)); line-height: calc(30 * var(--u)); }
+.t-body-16    { font-family: var(--font-body); font-weight: 400; font-size: calc(16 * var(--u)); line-height: calc(20 * var(--u)); }
+.t-center     { text-align: center; }
+.t-pre        { white-space: pre; }
+.t-upper      { text-transform: uppercase; }
+
+/* --------------------------------------------------------------------------
+   z1 — Hero (fixed). Fades off-white → blue while the logo, wordmark + nav morph.
+   -------------------------------------------------------------------------- */
+.hero {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  padding: var(--margin);
+  background: var(--color-off-white);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hero__headline {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: calc(60 * var(--u));
+  line-height: calc(66 * var(--u));
+  color: var(--color-blue);
+  text-align: center;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+   z2 — Logo. Positioned at its END state (State B: 3 columns, centered);
+   main.js scales/translates it back to State A (1 column, equidistant between
+   the wordmark and the nav) at scroll 0.
+   -------------------------------------------------------------------------- */
+.logo {
+  position: fixed;
+  z-index: 2;
+  left: calc(490 * var(--u));
+  top: calc(50vh - 120.06 * var(--u));
+  width: calc(460 * var(--u));
+  height: calc(240.12 * var(--u));
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+/* --------------------------------------------------------------------------
+   z2 — Lines. Two stacks of four 4px off-black lines, 4px apart (28 × 1490),
+   rotated 60°. Each band's centre sits 142 in and 65.75 down from its corner,
+   so it cuts the corner from the side edge (~148 down) to the top/bottom edge
+   (~256 in). Each line is its own element so main.js can grow it into the
+   frame along its own length.
+   -------------------------------------------------------------------------- */
+.lines {
+  position: fixed;
+  z-index: 2;
+  width: calc(28 * var(--u));
+  height: calc(1490 * var(--u));
+  transform: rotate(60deg);
+  pointer-events: none;
+}
+.lines__line {
+  position: absolute;
+  top: 0;
+  width: calc(4 * var(--u));
+  height: 100%;
+  background: var(--color-off-black);
+  will-change: transform;
+}
+.lines__line:nth-child(1) { left: 0; }
+.lines__line:nth-child(2) { left: calc(8 * var(--u)); }
+.lines__line:nth-child(3) { left: calc(16 * var(--u)); }
+.lines__line:nth-child(4) { left: calc(24 * var(--u)); }
+.lines--top-left     { left: calc(128 * var(--u));  top: calc(-679.25 * var(--u)); }
+.lines--bottom-right { right: calc(128 * var(--u)); bottom: calc(-679.25 * var(--u)); }
+
+/* --------------------------------------------------------------------------
+   z4 — Wordmark. Positioned at its END state (State B: top, left of the nav —
+   wordmark + 10px + nav = 740.72 wide, centered); main.js moves it back to
+   State A (column 1, vertically centered) at scroll 0. Size doesn't change.
+   -------------------------------------------------------------------------- */
+.wordmark {
+  position: fixed;
+  z-index: 4;
+  left: calc(349.64 * var(--u));
+  top: var(--margin);
+  width: calc(146.67 * var(--u));
+  height: calc(21.61 * var(--u));
+  will-change: transform;
+}
+
+.wordmark svg { display: block; width: 100%; height: 100%; }
+.wordmark__pill { fill: var(--color-off-white); transition: fill 0.2s ease; }
+.wordmark__ink  { fill: var(--color-off-black); }
+
+/* Hover: the off-white pill turns blue-grey, like the nav */
+.wordmark:hover .wordmark__pill { fill: var(--color-blue-grey); }
+
+/* --------------------------------------------------------------------------
+   z4 — Nav. Positioned at its END state (State B: top, right of the wordmark);
+   main.js moves it to State A (right side, vertically centered) at scroll 0.
+   -------------------------------------------------------------------------- */
+.nav {
+  position: fixed;
+  z-index: 4;
+  left: calc(506.31 * var(--u));
+  top: var(--margin);
+  width: calc(584.05 * var(--u));
+  height: calc(21.61 * var(--u));
+  will-change: transform;
+}
+
+.nav__frames {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.nav__pill { fill: var(--color-off-white); transition: fill 0.2s ease; }
+.nav__edge { fill: var(--color-off-black); }
+
+.nav__items {
+  position: absolute;
+  inset: 0;
+  display: flex;
+}
+
+.nav__item {
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-size: calc(12 * var(--u));
+  line-height: calc(16 * var(--u));
+  color: var(--color-off-black);
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Hover: the off-white pill turns blue-grey */
+.nav:has(.nav__item[data-i="1"]:hover) g[data-i="1"] .nav__pill,
+.nav:has(.nav__item[data-i="2"]:hover) g[data-i="2"] .nav__pill,
+.nav:has(.nav__item[data-i="3"]:hover) g[data-i="3"] .nav__pill,
+.nav:has(.nav__item[data-i="4"]:hover) g[data-i="4"] .nav__pill {
+  fill: var(--color-blue-grey);
+}
+
+/* --------------------------------------------------------------------------
+   Scroll layer. No z-index here on purpose: its children stack against the
+   fixed logo (z2) in the root stacking context.
+   -------------------------------------------------------------------------- */
+.scroll-layer { position: relative; }
+
+.hero-scroll { height: 100vh; }
+
+.reveal {
+  position: relative;
+  height: calc(100vh + var(--hold));
+}
+
+.reveal__text {
+  position: absolute;
+  z-index: 3;
+  left: var(--margin);
+  right: var(--margin);
+  bottom: var(--margin);
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: calc(24 * var(--u));
+  line-height: calc(30 * var(--u));
+  color: var(--color-off-white);
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.content {
+  position: relative;
+  z-index: 3;
+  padding: var(--margin);
+}
+
+.content__canvas {
+  position: relative;
+  /* Ends 680px below the final CTA so, at the very bottom, the CTA has scrolled
+     mostly off and the view is the nav, the logo and the footer text. */
+  height: calc(13130.01 * var(--u));
+}
+
+/* --------------------------------------------------------------------------
+   Frames, photos, buttons
+   Centered odd-column widths: 3 col = 460 @ 470 · 5 col = 773.33 @ 313.33 · 7 col = 1086.67 @ 156.67
+   -------------------------------------------------------------------------- */
+.frame,
+.photo,
+.stack,
+.footer { position: absolute; }
+
+.frame {
+  padding: var(--margin);
+  background: var(--color-off-white);
+  border: var(--border) solid var(--color-off-black);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--margin);
+}
+
+.frame--grey { background: var(--color-blue-grey); }
+
+/* Wordmark styling: a square off-black edge around a rounded inner panel, so
+   the black shows in the corners. 40px corners (more pronounced than the
+   wordmark's own ratio, at the user's request). Used on the headline frames.
+   The panel is a pseudo-element so content and spacing are unchanged. */
+.frame.frame--wordmark-style {
+  isolation: isolate;
+  background: var(--color-off-black);
+}
+.frame--wordmark-style::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: calc(40 * var(--u));
+  background: var(--color-off-white);
+}
+.frame--grey.frame--wordmark-style::before { background: var(--color-blue-grey); }
+
+.photo {
+  object-fit: cover;
+  border: var(--border) solid var(--color-off-black);
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--margin);
+}
+
+.stack .frame { position: relative; width: 100%; }
+.stack .frame > * { width: 100%; }
+.stack .frame > .btn { width: auto; }
+
+/* Buttons: off-black edge, rounded pill, fit to text */
+.btn {
+  display: inline-flex;
+  flex-shrink: 0;
+  height: calc(21.61 * var(--u));
+  padding: calc(1.07 * var(--u));
+  background: var(--color-off-black);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn span {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 calc(16 * var(--u));
+  border-radius: calc(5.8 * var(--u));
+  font-family: var(--font-body);
+  font-size: calc(12 * var(--u));
+  line-height: calc(16 * var(--u));
+  color: var(--color-off-black);
+  white-space: nowrap;
+  transition: background-color 0.2s ease;
+}
+
+.btn--blue span      { background: var(--color-blue); }
+.btn--off-white span { background: var(--color-off-white); }
+.btn:hover span      { background: var(--color-blue-grey); }
+.btn--hover-blue:hover span { background: var(--color-blue); }  /* "View All Questions" */
+.btn--fixed          { width: calc(146.67 * var(--u)); }
+
+/* 7 col — top */
+.frame--intro {
+  left: calc(156.67 * var(--u));
+  top: 0;
+  width: calc(1086.67 * var(--u));
+  align-items: center;
+}
+
+.photo--italian-workshop { left: calc(313.33 * var(--u)); top: calc(506 * var(--u));     width: calc(773.33 * var(--u)); height: calc(515.55 * var(--u)); }
+
+.frame--firm          { left: calc(313.33 * var(--u)); top: calc(1321.55 * var(--u)); width: calc(773.33 * var(--u)); }
+
+.frame--advantage     { left: calc(313.33 * var(--u)); top: calc(1767.55 * var(--u)); width: calc(773.33 * var(--u)); align-items: center; }
+
+.photo--sports-cars   { left: calc(313.33 * var(--u)); top: calc(2191.55 * var(--u)); width: calc(773.33 * var(--u)); height: calc(515.55 * var(--u)); }
+
+.frame--approach      { left: calc(470 * var(--u));    top: calc(3007.1 * var(--u));  width: calc(460 * var(--u)); }
+
+.photo--jaguar-workshop  { left: calc(313.33 * var(--u)); top: calc(3552.71 * var(--u)); width: calc(773.33 * var(--u)); height: calc(515.55 * var(--u)); }
+
+.stack--situations    { left: calc(313.33 * var(--u)); top: calc(4368.26 * var(--u)); width: calc(773.33 * var(--u)); }
+
+.frame--vehicle-change{ left: calc(156.67 * var(--u)); top: calc(5572.26 * var(--u)); width: calc(1086.67 * var(--u)); align-items: center; }
+
+/* Photo + caption pairs (caption overlaps the top of its photo) */
+.photo--orange-car    { left: calc(313.33 * var(--u)); top: calc(6061.26 * var(--u)); width: calc(773.33 * var(--u)); height: calc(515.55 * var(--u)); }
+.caption--cars        { left: calc(470 * var(--u));    top: calc(6024.26 * var(--u)); width: calc(460 * var(--u)); }
+
+.photo--sailboats     { left: calc(470 * var(--u));    top: calc(6913.87 * var(--u)); width: calc(460 * var(--u));    height: calc(690 * var(--u)); }
+.caption--boats       { left: calc(313.33 * var(--u)); top: calc(6876.81 * var(--u)); width: calc(773.33 * var(--u)); }
+
+.photo--camper        { left: calc(313.33 * var(--u)); top: calc(7955.87 * var(--u)); width: calc(773.33 * var(--u)); height: calc(515.55 * var(--u)); }
+.caption--rvs         { left: calc(470 * var(--u));    top: calc(7903.87 * var(--u)); width: calc(460 * var(--u)); }
+
+.photo--enfield       { left: calc(470 * var(--u));    top: calc(8808.42 * var(--u)); width: calc(460 * var(--u));    height: calc(689.8 * var(--u)); }
+.caption--motorcycles { left: calc(313.33 * var(--u)); top: calc(8771.42 * var(--u)); width: calc(773.33 * var(--u)); }
+
+.photo--aircraft      { left: calc(313.33 * var(--u)); top: calc(9835.22 * var(--u)); width: calc(773.33 * var(--u)); height: calc(515.55 * var(--u)); }
+.caption--aircraft    { left: calc(470 * var(--u));    top: calc(9798.22 * var(--u)); width: calc(460 * var(--u)); }
+
+.caption > * { width: 100%; }
+
+.frame--worth-knowing { left: calc(313.33 * var(--u)); top: calc(10650.77 * var(--u)); width: calc(773.33 * var(--u)); align-items: center; }
+
+.stack--faq           { left: calc(313.33 * var(--u)); top: calc(11102.77 * var(--u)); width: calc(773.33 * var(--u)); }
+
+.frame--company       { left: calc(156.67 * var(--u)); top: calc(12060.4 * var(--u)); width: calc(1086.67 * var(--u)); }
+.frame--company > *   { width: 100%; }
+.frame--company .btn  { width: auto; align-self: center; }
+
+/* 5 col — pinned to the bottom of the section */
+.footer {
+  left: calc(313.33 * var(--u));
+  bottom: 0;
+  width: calc(773.33 * var(--u));
+  color: var(--color-off-white);
+}
+
+.frame--firm > p,
+.frame--approach > p { width: 100%; }
