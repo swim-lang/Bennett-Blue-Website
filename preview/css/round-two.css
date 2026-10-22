@@ -217,3 +217,7 @@ dialog{border:0;max-width:none;max-height:none;margin:auto;padding:0}dialog::bac
 .opening-rules{position:absolute;left:0;top:calc(50% - 9px);width:100%;display:grid;gap:4px}
 .opening-rules i{display:block;height:1px;background:var(--color-ivory);transform:scaleX(0);transform-origin:center}
 .opening-seal{z-index:2;will-change:transform;transform-origin:center}
+
+/* Let the vehicle typography move freely, without fading or clipping its edges. */
+.billboard,.vehicle-list{overflow:visible;mask-image:none;-webkit-mask-image:none}
+.vehicle-line:nth-child(n+6){display:none}
