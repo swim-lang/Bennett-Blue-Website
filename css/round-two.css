@@ -197,3 +197,6 @@ dialog{border:0;max-width:none;max-height:none;margin:auto;padding:0}dialog::bac
 .situation-dot .situation-oval{font-size:calc(13 * var(--u))}
 .contact{position:relative;border-top-left-radius:50% var(--section-arc);border-top-right-radius:50% var(--section-arc);margin-top:calc(-1 * var(--section-arc));overflow:clip;z-index:5}
 @media(max-width:900px){.spotlight-current>.situation-oval{font-size:60px}.situation-dot .situation-oval{font-size:13px}.contact{padding-top:calc(64px + var(--section-arc))}}
+/* Center the category caption in the open space above the photographed subject. */
+.gallery-tooltip{top:calc(42 * var(--u));bottom:auto;left:50%;transform:translateX(-50%);width:calc(420 * var(--u));padding:calc(22 * var(--u)) calc(30 * var(--u));border-radius:calc(28 * var(--u));text-align:center;align-items:center}
+@media(max-width:900px){.gallery-tooltip{top:20px;bottom:auto;left:50%;width:calc(100% - 48px);max-width:360px;padding:14px 18px;border-radius:20px;gap:5px}.gallery-tooltip>div:first-child{font-size:19px;line-height:25px}.gallery-tooltip>div:nth-child(2){font-size:14px;line-height:20px}}
