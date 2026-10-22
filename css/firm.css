@@ -18,3 +18,7 @@
  .profile-dialog [data-paper="4H4-1"],.profile-dialog [data-paper="4H7-1"],.profile-dialog [data-paper="4HA-1"]{flex-shrink:0;white-space:nowrap}
  .profile-dialog .profile-close{position:sticky;top:0;right:auto;align-self:flex-end;order:-1;margin-top:-45px;margin-bottom:-20px;padding:8px;background:var(--color-ivory);border-radius:20px}
 }
+/* Match the proven homepage edge to the actual section clipping curve. */
+.our-firm-page .story,.our-firm-page .people,.our-firm-page .garage,.our-firm-page .montana-home,.our-firm-page .working,.firm-page .contact{border-top-left-radius:50% var(--section-arc);border-top-right-radius:50% var(--section-arc);margin-top:calc(-1 * var(--section-arc))}
+.working [data-paper="4IP-1"],.working [data-paper="4IT-1"],.working [data-paper="4IX-1"],.working [data-paper="4J1-1"]{font-size:calc(20 * var(--u));line-height:calc(32 * var(--u))}
+@media(max-width:900px){.working [data-paper="4IP-1"],.working [data-paper="4IT-1"],.working [data-paper="4IX-1"],.working [data-paper="4J1-1"]{font-size:18px;line-height:28px}}

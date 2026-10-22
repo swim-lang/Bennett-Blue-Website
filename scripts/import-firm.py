@@ -101,6 +101,14 @@ for id in ['mobile-menu','questions']:
   dialogs.append(str(d))
 for a in main.find_all(string=lambda t:t and t.strip()=='Explore Montana Registration'):
  p=a.parent;p.name='a';p['href']='index.html#montana'
+# Use the homepage curve geometry only where a separating ink edge is needed.
+for id in ['4G8-1','4C3-1','4DD-1']:
+ n=node(id)
+ if n:n.decompose()
+for id in ['49Y-1','4CY-1']:
+ n=node(id);cls(n,'section-oval-edge');n['preserveAspectRatio']='none';n['aria-hidden']='true'
+footer.append(frag('<svg class="section-oval-edge" viewBox="0 0 1440 72" preserveAspectRatio="none" aria-hidden="true"><path d="M0 65.25 A720 64 0 0 1 1440 65.25" fill="none" stroke="#161616" stroke-width="2.5"/></svg>'))
+for n in main.select('.video-toggle'):n.decompose()
 # Collect all Paper media locally and replace exported references.
 css='\n'.join(CSS)
 urls=sorted(set(re.findall(r'https://app.paper.design/file-assets/[^)]+',css)))
