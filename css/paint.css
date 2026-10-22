@@ -19,3 +19,9 @@
 @media(prefers-reduced-motion:reduce){.hero,.contact,.opening-band,#mobile-menu{transition:none}}
 /* Keep secondary footer text legible across the paint palette. */
 .contact{--color-blue-grey:var(--color-ivory)}
+/* Paper P2: Paint joins the navigation with a small outlined colour oval. */
+.paint-trigger{width:auto;height:44px;gap:10px;padding:0;background:none;border-radius:0;font-size:calc(15 * var(--u));line-height:calc(20 * var(--u));letter-spacing:.08em;white-space:nowrap}
+.paint-indicator{display:block;width:22px;height:14px;flex-shrink:0;border:2px solid var(--color-ivory);border-radius:50%;background:var(--color-blue)}
+.desktop-nav{align-items:center}
+.paint-panel{right:0;top:52px}
+@media(max-width:900px){.paint-trigger{font-size:13px;line-height:20px;gap:8px}.paint-indicator{width:20px;height:13px}.paint-panel{top:88px;right:20px}}
