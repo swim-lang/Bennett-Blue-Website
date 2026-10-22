@@ -10,17 +10,14 @@
   let done=false,animations=[];
   const sound=new Audio('assets/audio/bennett-opening.mp3');
   sound.preload='auto';sound.volume=.65;
-  let soundFrame=0,started=false,releaseTimer;
-  const enter=document.createElement('button');enter.className='opening-enter';enter.type='button';
-  enter.innerHTML='<span>Enter Bennett</span><small>With sound</small>';
-  overlay.append(enter);
-  enter.addEventListener('click',()=>{
-    if(started||done)return;started=true;enter.disabled=true;
-    // Invoke play directly inside the visitor's gesture, before any await.
-    const playback=sound.play();
-    releaseTimer=setTimeout(finish,6000);
-    playback.then(()=>{if(done){stopSound();return;}enter.remove();play().catch(finish);}).catch(()=>{enter.remove();play().catch(finish);});
-  });
+  let soundStarted=false,introStarted=false,soundFrame=0;
+  const soundDeadline=()=>performance.now()-introStarted>650;
+  function startSound(){
+    // A blocked autoplay may retry on a gesture only near the start of the intro.
+    if(done||!introStarted||soundStarted||soundDeadline()||document.hidden)return;
+    soundStarted=true;
+    sound.play().catch(()=>{soundStarted=false;});
+  }
   function stopSound(){cancelAnimationFrame(soundFrame);sound.pause();sound.currentTime=0;}
   function fadeSound(){
     if(done)return;
@@ -28,14 +25,14 @@
     soundFrame=requestAnimationFrame(fadeSound);
   }
   function visibility(){if(document.hidden)finish();}
+  addEventListener('pointerdown',startSound);addEventListener('keydown',startSound);
   document.addEventListener('visibilitychange',visibility);
   const oldOverflow=document.body.style.overflow;
   const oldInert=page.inert;
-  page.inert=true;document.body.style.overflow='hidden';
   function finish(){
     if(done)return;done=true;
     stopSound();
-    clearTimeout(releaseTimer);
+    removeEventListener('pointerdown',startSound);removeEventListener('keydown',startSound);
     document.removeEventListener('visibilitychange',visibility);
     animations.forEach(a=>a.cancel());overlay.remove();page.inert=oldInert;document.body.style.overflow=oldOverflow;
     root.classList.remove('opening-pending');
@@ -43,12 +40,12 @@
   }
   function escape(e){if(e.key==='Escape')finish();}
   addEventListener('keydown',escape);addEventListener('resize',finish);reduced.addEventListener('change',finish);
-
+  setTimeout(finish,4500); // Always release the page, even if a font or animation fails.
   async function play(){
-
+    await Promise.race([document.fonts.ready,new Promise(r=>setTimeout(r,500))]);
     if(done)return;
     if(reduced.matches||scrollY>40){finish();return;}
-    fadeSound();
+    introStarted=performance.now();startSound();fadeSound();
     page.inert=true;document.body.style.overflow='hidden';
     const target=document.querySelector('.hero-seal'),box=target.getBoundingClientRect();
     const graphic=target.querySelector('svg').cloneNode(true);graphic.removeAttribute('id');graphic.querySelectorAll('[id]').forEach(n=>n.removeAttribute('id'));seal.append(graphic);
@@ -68,5 +65,5 @@
     const end=animate(document.querySelector('.site-header'),[{opacity:0},{opacity:1}],{delay:1900,duration:400,easing:'ease-out'});
     try{await end.finished;}catch{}finally{clearTimeout(handoff);target.style.removeProperty('opacity');finish();}
   }
-  enter.focus({preventScroll:true});
+  play().catch(finish);
 })();
