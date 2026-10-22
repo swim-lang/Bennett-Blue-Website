@@ -66,7 +66,15 @@
   situations.append(controls);
   let situationIndex=0;
   function showSituation(index,animate=true,direction=1){
-    situationIndex=(index+situationData.length)%situationData.length;
+    const next=(index+situationData.length)%situationData.length;
+    if(animate&&next===situationIndex)return;
+    let outgoing;
+    if(animate&&!reduced.matches){
+      viewport.querySelectorAll('.spotlight-outgoing').forEach(n=>n.remove());
+      outgoing=document.createElement('div');outgoing.className='spotlight-outgoing';outgoing.setAttribute('aria-hidden','true');outgoing.inert=true;
+      [...viewport.children].forEach(n=>{const copy=n.cloneNode(true);copy.removeAttribute('aria-live');copy.querySelectorAll('[aria-live]').forEach(el=>el.removeAttribute('aria-live'));outgoing.append(copy);});
+    }
+    situationIndex=next;
     const current=situationData[situationIndex], panel=$('.spotlight-current');
     $('.situation-oval',panel).textContent=situationIndex+1;$('h3',panel).textContent=current.title;$('p',panel).textContent=current.body;
     for(const [selector,step] of [['.spotlight-previous',-1],['.spotlight-next',1]]){
@@ -75,9 +83,15 @@
     }
     $$('.situation-dot').forEach((button,i)=>{button.setAttribute('aria-current',String(i===situationIndex));button.setAttribute('aria-label',`Situation ${i+1}: ${situationData[i].title}`);});
     if(animate&&!reduced.matches){
-      panel.getAnimations().forEach(a=>a.cancel());
-      panel.animate([{opacity:.35,transform:`translateX(${direction*48}px) scale(.97)`},{opacity:1,transform:'translateX(0) scale(1)'}],{duration:650,easing:'cubic-bezier(.22,.7,.3,1)'});
-      $$('.spotlight-preview').forEach(n=>{n.getAnimations().forEach(a=>a.cancel());n.animate([{transform:`translateX(${direction*20}px)`},{transform:'translateX(0)'}],{duration:650,easing:'cubic-bezier(.22,.7,.3,1)'});});
+      if(outgoing){
+        viewport.append(outgoing);
+        outgoing.animate([{opacity:1,transform:'translateX(0)'},{opacity:0,transform:`translateX(${-direction*32}px)`}],{duration:600,easing:'cubic-bezier(.4,0,.2,1)',fill:'forwards'}).finished.then(()=>outgoing.remove()).catch(()=>outgoing.remove());
+      }
+      [panel,...$$('.spotlight-preview',viewport)].filter(n=>!n.closest('.spotlight-outgoing')).forEach(n=>{
+        n.getAnimations().forEach(a=>a.cancel());
+        const opacity=n.classList.contains('spotlight-preview')?.5:1;
+        n.animate([{opacity:0,transform:`translateX(${direction*32}px)`},{opacity,transform:'translateX(0)'}],{duration:850,easing:'cubic-bezier(.22,.7,.3,1)'});
+      });
     }
   }
   $('.spotlight-previous').addEventListener('click',()=>showSituation(situationIndex-1,true,-1));
@@ -91,6 +105,20 @@
   viewport.addEventListener('pointerup',e=>{if(!swipeStart)return;const dx=e.clientX-swipeStart.x,dy=e.clientY-swipeStart.y;swipeStart=null;if(Math.abs(dx)>55&&Math.abs(dx)>Math.abs(dy)*1.4){const d=dx<0?1:-1;showSituation(situationIndex+d,true,d);}});
   viewport.addEventListener('pointercancel',()=>{swipeStart=null;});
   showSituation(0,false);
+  function sizeSpotlight(){
+    const panel=$('.spotlight-current'),probe=panel.cloneNode(true);
+    probe.classList.add('spotlight-measure');probe.setAttribute('aria-hidden','true');probe.removeAttribute('aria-live');probe.inert=true;
+    viewport.append(probe);const title=$('h3',probe),body=$('p',probe);title.style.minHeight='0';body.style.minHeight='0';
+    let titleHeight=0,bodyHeight=0;
+    situationData.forEach(v=>{title.textContent=v.title;body.textContent=v.body;titleHeight=Math.max(titleHeight,title.offsetHeight);bodyHeight=Math.max(bodyHeight,body.offsetHeight);});
+    $('h3',panel).style.minHeight=titleHeight+'px';$('p',panel).style.minHeight=bodyHeight+'px';probe.remove();
+  }
+  document.fonts.ready.then(sizeSpotlight);addEventListener('resize',sizeSpotlight);
+  // B2's edge geometry, kept separate from the pinned Montana content.
+  [scrollStage,situations,$('.vehicles'),$('.firm')].forEach(section=>{
+    const edge=document.createElementNS('http://www.w3.org/2000/svg','svg');edge.classList.add('section-oval-edge');edge.setAttribute('viewBox','0 0 1440 72');edge.setAttribute('preserveAspectRatio','none');edge.setAttribute('aria-hidden','true');
+    edge.innerHTML='<path d="M0 65.25 A720 64 0 0 1 1440 65.25" fill="none" stroke="#161616" stroke-width="2.5"/>';section.append(edge);
+  });
 
   // Vehicles C: retain the existing gallery controls inside the approved Paper frame.
   const gallery=$('.vehicles'),frame=document.createElement('div');frame.className='gallery-frame';

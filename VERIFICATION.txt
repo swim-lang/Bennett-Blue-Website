@@ -58,3 +58,11 @@ Opening storyboard A — October 21, 2026
 - Seal overlay is measured against the real hero seal for a continuous handoff.
 - Desktop natural playback releases overlay, inert state and scrolling; mobile fits at390px.
 - Skip control, reduced motion and direct section links verified. No script errors.
+
+B2 oval sections and spotlight transitions — October 21, 2026
+- Native B2 export saved; 50%/64px oval tops and 2.5px black SVG edge adapted responsively.
+- Applied overlapping boundaries to Montana stage, spotlight, vehicles and letter.
+- Montana remains sticky at viewport top; paper texture retained.
+- Spotlight uses outgoing/incoming crossfades with gentle 32px movement.
+- All six slides maintain equal viewport height:376px desktop,342px at390px mobile.
+- Rapid selections clean up outgoing layers; no overflow at320,390,768,1440px.

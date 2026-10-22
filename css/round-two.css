@@ -178,3 +178,16 @@ dialog{border:0;max-width:none;max-height:none;margin:auto;padding:0}dialog::bac
 /* Quiet situation titles, matching the supporting copy's scale. */
 .spotlight-current h3{font-size:calc(20 * var(--u));line-height:calc(32 * var(--u))}
 @media(max-width:900px){.spotlight-current h3{font-size:18px;line-height:28px}}
+/* B2: shallow oval overlaps with the original black edge geometry. */
+:root{--section-arc:clamp(28px,4.4444vw,85px)}
+.montana-stage,.situations.spotlight,.vehicles,.firm{position:relative;border-radius:50% var(--section-arc) 0 0 / var(--section-arc) var(--section-arc) 0 0;margin-top:calc(-1 * var(--section-arc));overflow:clip}
+.montana-stage{border-top-left-radius:50% var(--section-arc);border-top-right-radius:50% var(--section-arc);z-index:1}
+.situations.spotlight{border-top-left-radius:50% var(--section-arc);border-top-right-radius:50% var(--section-arc);z-index:2}
+.vehicles{border-top-left-radius:50% var(--section-arc);border-top-right-radius:50% var(--section-arc);z-index:3}
+.firm{border-top-left-radius:50% var(--section-arc);border-top-right-radius:50% var(--section-arc);z-index:4}
+.section-oval-edge{position:absolute!important;top:0!important;left:0!important;width:100%!important;height:calc(var(--section-arc) * 1.125)!important;pointer-events:none;z-index:5}
+.hero{padding-bottom:calc(clamp(32px,5vh,64px) + var(--section-arc))}
+.spotlight-viewport{position:relative}
+.spotlight-outgoing{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:inherit;pointer-events:none}
+.spotlight-measure{position:absolute!important;visibility:hidden!important;pointer-events:none;top:0;left:0}
+@media(max-width:900px){.hero{padding-bottom:calc(72px + var(--section-arc))}}
