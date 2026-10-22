@@ -18,8 +18,11 @@
   document.addEventListener('DOMContentLoaded',()=>{
     const header=document.querySelector('.site-header');
     const wrap=document.createElement('div');wrap.className='paint-control';
-    wrap.innerHTML='<button class="paint-trigger" aria-expanded="false" aria-controls="paint-panel" aria-label="Choose your paint">Paint</button><div id="paint-panel" class="paint-panel" hidden><h2>Choose your paint</h2><p>The site takes on the colour of your favourite car.</p><div class="paint-options" role="group" aria-label="Paint colours"></div></div>';
-    const cta=header.querySelector('.header-cta'),actions=document.createElement('div');actions.className='header-actions';header.insertBefore(actions,cta);actions.append(wrap,cta);
+    wrap.innerHTML='<button class="paint-trigger" aria-expanded="false" aria-controls="paint-panel" aria-label="Choose your paint"><span>Paint</span><span class="paint-indicator" aria-hidden="true"></span></button><div id="paint-panel" class="paint-panel" hidden><h2>Choose your paint</h2><p>The site takes on the colour of your favourite car.</p><div class="paint-options" role="group" aria-label="Paint colours"></div></div>';
+    const cta=header.querySelector('.header-cta'),actions=document.createElement('div');actions.className='header-actions';header.insertBefore(actions,cta);actions.append(cta);
+    const desktopNav=header.querySelector('.desktop-nav'), mobile=matchMedia('(max-width:900px)');
+    function placePaint(){(mobile.matches?actions:desktopNav).append(wrap);}
+    placePaint();mobile.addEventListener('change',placePaint);
     const trigger=wrap.querySelector('button'),panel=wrap.querySelector('.paint-panel'),options=wrap.querySelector('.paint-options');
     paints.forEach(([id,name,description,color])=>{
       const button=document.createElement('button');button.className='paint-option';button.type='button';button.dataset.paint=id;
