@@ -180,17 +180,24 @@
 
   // One live, readable letter settles like stationery placed on a desk.
   const sheet=$('.letter-sheet'),stage=document.createElement('div');stage.className='letter-stage';sheet.before(stage);stage.append(sheet);
+  // Prepare the starting pose before it enters view, avoiding a visible reset
+  // when the observer fires. Keep deep-link/restored visible letters settled.
   let letterEntrance;
-  const letterObserver=new IntersectionObserver(entries=>{
-    if(!entries.some(e=>e.isIntersecting))return;
-    letterObserver.disconnect();
-    if(reduced.matches)return;
+  if(!reduced.matches && stage.getBoundingClientRect().top>=innerHeight){
     letterEntrance=sheet.animate([
-      {transform:`translate3d(0,${mobile.matches?100:210}px,0) rotate(5.5deg)`},
+      {transform:`translate3d(0,${mobile.matches?55:90}px,0) rotate(2.5deg)`},
       {transform:'translate3d(0,0,0) rotate(0deg)'}
-    ],{duration:2400,easing:'cubic-bezier(.22,.65,.3,1)'});
-  },{threshold:0,rootMargin:'0px 0px -38% 0px'});
-  letterObserver.observe(stage);
+    ],{duration:1800,easing:'cubic-bezier(.22,.65,.3,1)',fill:'both'});
+    letterEntrance.pause();
+    const letterObserver=new IntersectionObserver(entries=>{
+      if(!entries.some(e=>e.isIntersecting))return;
+      letterObserver.disconnect();
+      if(reduced.matches){letterEntrance.cancel();return;}
+      letterEntrance.play();
+    },{threshold:0,rootMargin:'0px 0px -10% 0px'});
+    letterObserver.observe(stage);
+    letterEntrance.onfinish=()=>letterEntrance.cancel();
+  }
   reduced.addEventListener('change',()=>{if(reduced.matches)letterEntrance?.cancel();});
   let scheduled=false;
   function draw(){
