@@ -205,3 +205,7 @@ dialog{border:0;max-width:none;max-height:none;margin:auto;padding:0}dialog::bac
 .montana .adv-title,.montana .company-title{font-size:clamp(25.5px,2.7vw,43.5px);line-height:1.1}
 .spotlight>h2,.vehicles .p78,.vehicles .p79{font-size:calc(39 * var(--u));line-height:calc(43.5 * var(--u))}
 @media(max-width:900px){.montana .adv-title,.montana .company-title,.spotlight>h2,.vehicles .p78,.vehicles .p79{font-size:25.5px;line-height:28.5px}}
+
+/* Use the same geometry for the first curve and its edge: no separate SVG seam. */
+.montana-stage{border-top:2.5px solid var(--color-ink)}
+.montana-stage>.section-oval-edge{display:none}
