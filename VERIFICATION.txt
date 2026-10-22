@@ -1,0 +1,22 @@
+Round Two browser verification — 21 October 2026
+
+Paper desktop section heights at 1440px and implemented heights:
+Hero: 1014 / 1014
+Montana + company: 1340 / 1340
+Situations: 1166 / 1166
+Gallery: 1480 / 1480
+Letter: 1596 / 1596
+Footer: 759.296875 / 759.296875
+
+Confirmed original Successor Trial (300) and Malamocco Unlicensed Trial (400) binaries loaded.
+All six cards reachable, including the last at the horizontal scroll boundary.
+All five gallery categories load; enlarged image dialog loads and Escape dismisses.
+Four original FAQ entries available and expandable.
+Mobile menu contains focus and returns focus to Menu after Escape.
+Letter visual slices progress from +/-12 degrees through intermediate angles to flat.
+Reduced-motion mode disables the vehicle loop and reveals the readable static letter.
+Widths checked: 320, 375, 390, 768, 900, 1024, 1440, 1920px. No document overflow; 320px hero overflow was fixed and rechecked.
+No page JavaScript errors in interaction checks; no HTTP resource errors in final pass.
+Local HTML/CSS asset references all resolve. node --check and git diff --check pass.
+
+Limitations: Browser emulation, not physical phone testing. Mobile sections without supplied artboards are responsive adaptations. Exact pixel equivalence is not claimed; browser font rasterization and interactive states differ from static Paper exports. Photography usage and font licenses remain as supplied. No external deployment.

@@ -1,16 +1,34 @@
-# Bennett Law Office — Blue version
+# Bennett — Round Two
 
-Desktop build of the Paper page **"Blue Website"**: identical to "Center Layout" (`../bennett-center-layout`) except the brand green #767d0b is replaced with blue #2c4a9b.
+Local implementation of Sean Bennett / Homepage — Blue / Round 2 — Final Hero + new sections + Final Footer.
 
-```bash
-node dev-server.js 4325
-```
+## Preview
 
-- Centered, odd-column layout (3 / 5 / 7 columns) with a 300px vertical rhythm. The five headline frames have the wordmark styling: a square off-black edge around a rounded inner panel (40px corners).
-- Scroll morph (first screen): the oval **logo** grows from 1 column (between the wordmark and the nav) to 3 columns centered. The **wordmark** and the 4-pill **nav** rise from the centered row to the top, side by side.
-- Hero stays fixed and fades off-white → blue. The reveal text holds for 10% of a screen (`--hold` / `HOLD`).
-- **Lines**: two bands of four lines at 60° across the top-left and bottom-right corners. Once you scroll past the morph, each line grows in along its own path, tied to scroll (`LINES_IN`).
-- Content cards grow in from 50% as they rise and shrink out toward the top, with a rolodex tilt (`ROLODEX` in `js/main.js`).
-- Smooth scroll: Lenis, `lerp: 0.28`. The wordmark scrolls back to the top.
-- Hover: the wordmark, nav pills and buttons turn Blue Grey ("View All Questions" turns blue).
-- Fonts are trial versions and need web licenses before launch.
+`node dev-server.js 4321` then visit http://localhost:4321. No build or package install is required to run the site.
+
+## Source of truth
+
+Paper: https://app.paper.design/file/01M5G7XC4B0SW5SCEYMSCR3VEJ/p-2-0
+
+The desktop artboard and both mobile artboards were exported directly as JSX into `design-source/`. Typography, original SVG paths, spacing, letter geometry, and colors are translated into `index.html` and `css/paper.css`. At 1440px the desktop geometry uses Paper's pixel values. Below 900px the layout reflows using the supplied mobile design; the gallery, company section, letter, and footer extend that design responsively.
+
+`css/round-two.css` contains responsive adaptations, interactions, and motion. `js/round-two.js` is dependency-free. `scripts/import-paper.py` regenerates the static source layer from the saved exports (requires Python + beautifulsoup4); it leaves the behavior and responsive CSS untouched.
+
+## Interaction
+
+- Slow, seamless upward vehicle loop behind a stationary seal, with a pause control; stationary on mobile and with reduced motion.
+- Center pinstripes draw down with scrolling. Left and right content reveal at their own positions.
+- All six situations support horizontal trackpad scrolling, mouse drag, keyboard arrows, the next control, and touch swiping. Desktop wheel movement over the rail advances cards and releases at the ends.
+- Five gallery categories, keyboard-operated tabs, and a click-to-enlarge native dialog.
+- The letter opens gently along its two supplied folds (12 degrees maximum) and settles into the original geometry. Reduced motion and mobile use the readable static letter.
+- Mobile navigation uses the blue Paper menu. Native dialogs provide Escape handling and focus containment. FAQ content comes from the original GitHub website.
+
+## Asset notes
+
+Only the original Successor Light and Malamocco Regular font binaries are used. They remain trial fonts as recorded in the original repository.
+
+The initial car image matches Paper's BB Garage photograph. The office illustration is a 4x native Paper export, preserving the exact selected rendering; the source SVG is retained too. Other gallery categories use existing supplied photographs (not newly approved art direction). Reference photography has not been cleared for public website publication.
+
+Contact actions use the supplied phone number. Internal navigation points to the appropriate homepage sections. Separate attorney, service, privacy, and legal pages are not part of this prototype; the footer's policy labels remain noninteractive until those pages exist.
+
+This is a local review build, not a production deployment.
