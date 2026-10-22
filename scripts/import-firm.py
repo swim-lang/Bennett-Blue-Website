@@ -62,6 +62,7 @@ sections[-1].replace_with(footer)
 for id,tag in [('48P-1','h1'),('4AC-1','h2'),('4AJ-1','h2'),('4C6-1','h2'),('4D2-1','h2')]:
  n=node(id)
  if n:n.name=tag
+node('48P-1').string='A personal introduction.'
 node('4C6-1').string='In the garage.'
 node('4C9-1').string='Ask us what belongs in the garage, and the conversation can run a little longer.'
 node('4HR-1').string='Garage notes';node('4HY-1').string='Garage notes'
