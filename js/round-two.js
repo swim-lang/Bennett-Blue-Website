@@ -138,10 +138,10 @@
   const original=getComputedStyle($('.gallery-image')).backgroundImage.match(/url\(["']?(.*?)["']?\)/)?.[1];
   const vehicles=[
     {name:'Cars',description:'Contemporary, classic, performance, and everyday vehicles.',src:original,alt:'Modern private car collection, BB Garage by Architects Ink'},
-    {name:'Motorhomes & RVs',description:'Motorhomes and recreational vehicles, with ownership shaped around your plans.',src:'assets/img/camper-van.jpg',alt:'Camper van among trees'},
-    {name:'Motorcycles',description:'The motorcycle you make time to ride.',src:'assets/img/royal-enfield.jpg',alt:'Royal Enfield motorcycle detail'},
+    {name:'Motorhomes & RVs',description:'Motorhomes and recreational vehicles, with ownership shaped around your plans.',src:'assets/round-two/van-daniel-j-schwarz.jpg',alt:'Camper van on a mountain track amid golden grass'},
+    {name:'Motorcycles',description:'The motorcycle you make time to ride.',src:'assets/round-two/motorcycle-O6M6TeMbEqE.jpg',alt:'Motorcycle parked beside a road'},
     {name:'Boats & ATVs',description:'For the water, the trail, and what comes next.',src:'assets/round-two/boat-viktor.jpg',alt:'Yacht viewed from above'},
-    {name:'Aircraft',description:'Personal attention to aircraft ownership and registration.',src:'assets/img/propeller-aircraft.jpg',alt:'Propeller aircraft outside a hangar'}
+    {name:'Aircraft',description:'Personal attention to aircraft ownership and registration.',src:'assets/round-two/jet-xGBGYBckZcE.jpg',alt:'White jet parked at an airport'}
   ];
   // Fetch and decode once, before the visitor reaches the category controls.
   const vehicleImages=vehicles.map(v=>{
