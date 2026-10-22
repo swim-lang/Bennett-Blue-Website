@@ -201,3 +201,7 @@ dialog{border:0;max-width:none;max-height:none;margin:auto;padding:0}dialog::bac
 .gallery-tooltip{top:0;bottom:auto;left:50%;transform:translateX(-50%);width:max-content;max-width:75%;padding:calc(24 * var(--u)) calc(32 * var(--u)) calc(14 * var(--u));border-radius:0 0 calc(24 * var(--u)) calc(24 * var(--u));text-align:center;align-items:center;gap:0}
 .gallery-tooltip>div:first-child{display:none}
 @media(max-width:900px){.gallery-tooltip{top:0;max-width:82%;padding:16px 18px 10px;border-radius:0 0 18px 18px}.gallery-tooltip>div:nth-child(2){font-size:13px;line-height:18px}}
+/* Reduce the named homepage section headings by fifteen percent. */
+.montana .adv-title,.montana .company-title{font-size:clamp(28.9px,3.06vw,49.3px);line-height:1.1}
+.spotlight>h2,.vehicles .p78,.vehicles .p79{font-size:calc(44.2 * var(--u));line-height:calc(49.3 * var(--u))}
+@media(max-width:900px){.montana .adv-title,.montana .company-title,.spotlight>h2,.vehicles .p78,.vehicles .p79{font-size:28.9px;line-height:32.3px}}
