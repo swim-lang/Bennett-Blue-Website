@@ -8,10 +8,32 @@
   document.body.append(overlay);
   const band=overlay.querySelector('.opening-band'),seal=overlay.querySelector('.opening-seal');
   let done=false,animations=[];
+  const sound=new Audio('assets/audio/bennett-opening.mp3');
+  sound.preload='auto';sound.volume=.65;
+  let soundStarted=false,introStarted=false,soundFrame=0;
+  const soundDeadline=()=>performance.now()-introStarted>650;
+  function startSound(){
+    // A blocked autoplay may retry on a gesture only near the start of the intro.
+    if(done||!introStarted||soundStarted||soundDeadline()||document.hidden)return;
+    soundStarted=true;
+    sound.play().catch(()=>{soundStarted=false;});
+  }
+  function stopSound(){cancelAnimationFrame(soundFrame);sound.pause();sound.currentTime=0;}
+  function fadeSound(){
+    if(done)return;
+    if(sound.currentTime>1.7)sound.volume=.65*Math.max(0,(2-sound.currentTime)/.3);
+    soundFrame=requestAnimationFrame(fadeSound);
+  }
+  function visibility(){if(document.hidden)finish();}
+  addEventListener('pointerdown',startSound);addEventListener('keydown',startSound);
+  document.addEventListener('visibilitychange',visibility);
   const oldOverflow=document.body.style.overflow;
   const oldInert=page.inert;
   function finish(){
     if(done)return;done=true;
+    stopSound();
+    removeEventListener('pointerdown',startSound);removeEventListener('keydown',startSound);
+    document.removeEventListener('visibilitychange',visibility);
     animations.forEach(a=>a.cancel());overlay.remove();page.inert=oldInert;document.body.style.overflow=oldOverflow;
     root.classList.remove('opening-pending');
     removeEventListener('keydown',escape);removeEventListener('resize',finish);reduced.removeEventListener('change',finish);
@@ -23,6 +45,7 @@
     await Promise.race([document.fonts.ready,new Promise(r=>setTimeout(r,500))]);
     if(done)return;
     if(reduced.matches||scrollY>40){finish();return;}
+    introStarted=performance.now();startSound();fadeSound();
     page.inert=true;document.body.style.overflow='hidden';
     const target=document.querySelector('.hero-seal'),box=target.getBoundingClientRect();
     const graphic=target.querySelector('svg').cloneNode(true);graphic.removeAttribute('id');graphic.querySelectorAll('[id]').forEach(n=>n.removeAttribute('id'));seal.append(graphic);
