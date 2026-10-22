@@ -54,7 +54,7 @@
     title:$('h3',card).textContent.trim(),
     body:$('h3',card).nextElementSibling.textContent.trim()
   }));
-  const situationHeading=$('.situations-heading h2').textContent.trim();
+  const situationHeading='How we can help.';
   situations.replaceChildren();situations.classList.add('spotlight');
   const spotlightTitle=document.createElement('h2');spotlightTitle.textContent=situationHeading;spotlightTitle.id='spotlight-title';situations.append(spotlightTitle);
   situations.setAttribute('aria-labelledby','spotlight-title');situations.setAttribute('aria-roledescription','carousel');
@@ -105,7 +105,7 @@
   gallery.prepend(diagonal);
   const galleryObserver=new IntersectionObserver(entries=>{
     if(entries.some(e=>e.isIntersecting)){gallery.classList.add('diagonal-revealed');galleryObserver.disconnect();}
-  },{threshold:.16});galleryObserver.observe(gallery);
+  },{threshold:0,rootMargin:'0px 0px -38% 0px'});galleryObserver.observe($('.gallery-frame'));
 
   const original=getComputedStyle($('.gallery-image')).backgroundImage.match(/url\(["']?(.*?)["']?\)/)?.[1];
   const vehicles=[
