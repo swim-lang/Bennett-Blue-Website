@@ -124,7 +124,7 @@ for script in head.find_all('script'):
  if not script.get('src'):script.decompose()
 for m in head.select('meta[property="og:title"],meta[name="twitter:title"]'):m['content']='Our Firm — Bennett'
 head.select_one('meta[property="og:url"]')['content']='https://swim-lang.github.io/Bennett-Blue-Website/preview/our-firm.html'
-head.head.append(frag('<link rel="stylesheet" href="css/firm-paper.css"><link rel="stylesheet" href="css/firm.css">'))
+head.head.append(frag('<link rel="stylesheet" href="css/firm-paper.css"><link rel="stylesheet" href="css/firm.css?v=headings25">'))
 htmlout='<!doctype html><html lang="en">'+str(head)+'<body class="firm-page"><a class="skip-link" href="#story">Skip to content</a>'+str(root)+''.join(dialogs)+str(modal)+'<script src="js/firm.js"></script></body></html>'
 (BASE/'our-firm.html').write_text(htmlout.replace('viewbox=','viewBox=').replace('preserveaspectratio=','preserveAspectRatio='))
 print('Built Our Firm with',len(CSS),'source style rules and',len(urls),'local assets')
