@@ -164,7 +164,7 @@
       outgoing.animate([{opacity:1},{opacity:0}],{duration:450,easing:'ease-out',fill:'forwards'}).finished.then(()=>outgoing.remove()).catch(()=>outgoing.remove());
       picture.animate([{transform:'scale(1.035)'},{transform:'scale(1)'}],{duration:1100,easing:'cubic-bezier(.2,.65,.3,1)'});
       $('.gallery-tooltip').getAnimations().forEach(a=>a.cancel());
-      $('.gallery-tooltip').animate([{opacity:.35,translate:'0 8px'},{opacity:1,translate:'0 0'}],{duration:550,easing:'ease-out'});
+      $('.gallery-tooltip').animate([{opacity:.35},{opacity:1}],{duration:550,easing:'ease-out'});
     }
     picture.style.backgroundImage=`url("${v.src}")`;
     $('.gallery-image').setAttribute('aria-label',v.alt);
