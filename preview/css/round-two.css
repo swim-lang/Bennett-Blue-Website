@@ -113,10 +113,10 @@ dialog{border:0;max-width:none;max-height:none;margin:auto;padding:0}dialog::bac
 
 /* The letter stays intact and readable throughout its entrance. */
 .letter-sheet{opacity:1;transition:none;transform-origin:50% 65%}
-/* Blue closing section exploration. */
-.firm,.contact{background-color:var(--color-blue)}
+/* Black closing sections, independent of the selected paint. */
+.firm,.contact{background-color:var(--color-ink)}
 .firm{background-image:none}
-/* Final closing palette: black behind the letter, Bennett blue footer. */
+/* Final closing palette: black behind the letter and in the footer. */
 .firm{background-color:var(--color-ink);background-image:radial-gradient(circle at 50% 45%,#2a2a2a 0%,var(--color-ink) 65%)}
 @media(max-width:900px){.firm{background-image:none}}
 /* Situations P — Paper's ivory spotlight and original oval seal asset. */
