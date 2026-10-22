@@ -41,3 +41,12 @@ Vehicles C update — October 21, 2026
 - No horizontal overflow at 320, 390, 768, 1024 and 1440px; no browser script errors.
 - Prior Montana copy revision verified: intro/CTA left, considered approach body right,
   purely vertical entrances with right column hidden until the left has settled.
+
+Situations P spotlight — October 21, 2026
+- Read Paper Situations P JSX and screenshot; retained native oval SVG and brand fonts.
+- Replaced horizontal cards with centered spotlight, adjacent previews and six controls.
+- All six original title/body pairs verified; next wraps, keyboard arrows and swipe work.
+- Directional 650ms transition, no automatic advancement, reduced motion stays static.
+- No overflow at 320, 390, 768, 1024, 1440px. Desktop/mobile screenshots reviewed.
+- Letter now uses one intact sheet with a 2.4s slide/rotation, delayed until in view.
+- Closing palette: black behind letter, blue footer. Gallery photos preload.

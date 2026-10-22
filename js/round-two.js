@@ -11,9 +11,10 @@
   $('.motion-toggle').hidden = true;
   const montana=$('.montana'), scrollStage=document.createElement('div');
   scrollStage.className='montana-stage';montana.before(scrollStage);scrollStage.append(montana);
+  $('.company-address')?.remove();
   for(const side of ['left','right']){
     const column=document.createElement('div');column.className='montana-column column-'+side;
-    const order=side==='left'?['adv-title','adv-intro','adv-link']:['office','company-title','company-body','company-cta','company-address'];
+    const order=side==='left'?['adv-title','adv-intro','adv-link']:['office','company-title','company-body','company-cta'];
     order.forEach(name=>column.append($('.'+name)));montana.append(column);
   }
 
@@ -47,19 +48,49 @@
   }));
   mobile.addEventListener('change',()=>{if(!mobile.matches && $('#mobile-menu').open)closeDialog($('#mobile-menu'));});
 
-  const track=$('.cards-track'), progress=$('.cards-progress');
-  function updateCards(){const max=track.scrollWidth-track.clientWidth;progress.style.width=`${(max ? .16+.84*track.scrollLeft/max : 1)*100}%`;}
-  function nextCard(dir=1){const step=$('.situation-card').getBoundingClientRect().width+parseFloat(getComputedStyle(track).gap);const end=track.scrollLeft>=track.scrollWidth-track.clientWidth-3;track.scrollTo({left:dir>0&&end?0:track.scrollLeft+dir*step,behavior:reduced.matches?'instant':'smooth'});}
-  $('.next-card').addEventListener('click',()=>nextCard());
-  track.addEventListener('scroll',updateCards,{passive:true});
-  track.addEventListener('keydown',e=>{if(['ArrowRight','ArrowLeft'].includes(e.key)){e.preventDefault();nextCard(e.key==='ArrowRight'?1:-1);}});
-  let drag=null;
-  track.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse'&&e.button===0){drag={x:e.clientX,left:track.scrollLeft};track.classList.add('is-dragging');track.setPointerCapture(e.pointerId);}});
-  track.addEventListener('pointermove',e=>{if(drag)track.scrollLeft=drag.left-(e.clientX-drag.x);});
-  const endDrag=()=>{drag=null;track.classList.remove('is-dragging');};
-  track.addEventListener('pointerup',endDrag);track.addEventListener('pointercancel',endDrag);
-  // Consume vertical wheel gestures only inside the desktop rail, releasing at either end.
-  track.addEventListener('wheel',e=>{if(!mobile.matches && Math.abs(e.deltaY)>Math.abs(e.deltaX)){const delta=e.deltaY*(e.deltaMode===1?16:1);const max=track.scrollWidth-track.clientWidth;if((delta>0&&track.scrollLeft<max-2)||(delta<0&&track.scrollLeft>2)){e.preventDefault();track.scrollLeft+=delta;}}},{passive:false});
+  // Situations P: all six original situations in one focused, user-controlled carousel.
+  const situations=$('.situations');
+  const situationData=$$('.situation-card').map(card=>({
+    title:$('h3',card).textContent.trim(),
+    body:$('h3',card).nextElementSibling.textContent.trim()
+  }));
+  const situationHeading=$('.situations-heading h2').textContent.trim();
+  situations.replaceChildren();situations.classList.add('spotlight');
+  const spotlightTitle=document.createElement('h2');spotlightTitle.textContent=situationHeading;spotlightTitle.id='spotlight-title';situations.append(spotlightTitle);
+  situations.setAttribute('aria-labelledby','spotlight-title');situations.setAttribute('aria-roledescription','carousel');
+  const viewport=document.createElement('div');viewport.className='spotlight-viewport';viewport.tabIndex=0;viewport.setAttribute('aria-label','Situations. Use left and right arrow keys to browse.');
+  viewport.innerHTML='<button class="spotlight-preview spotlight-previous" type="button"><span class="situation-oval"></span><span class="preview-title"></span></button><article class="spotlight-current" aria-live="polite" aria-atomic="true"><span class="situation-oval" aria-hidden="true"></span><h3></h3><p></p></article><button class="spotlight-preview spotlight-next" type="button"><span class="situation-oval"></span><span class="preview-title"></span></button>';
+  situations.append(viewport);
+  const controls=document.createElement('nav');controls.className='spotlight-controls';controls.setAttribute('aria-label','Choose a situation');
+  controls.innerHTML='<button type="button" class="spotlight-arrow previous" aria-label="Previous situation">←</button>'+situationData.map((v,i)=>`<button type="button" class="situation-dot" aria-label="Situation ${i+1}"><span class="situation-oval">${i+1}</span></button>`).join('')+'<button type="button" class="spotlight-arrow next" aria-label="Next situation">→</button>';
+  situations.append(controls);
+  let situationIndex=0;
+  function showSituation(index,animate=true,direction=1){
+    situationIndex=(index+situationData.length)%situationData.length;
+    const current=situationData[situationIndex], panel=$('.spotlight-current');
+    $('.situation-oval',panel).textContent=situationIndex+1;$('h3',panel).textContent=current.title;$('p',panel).textContent=current.body;
+    for(const [selector,step] of [['.spotlight-previous',-1],['.spotlight-next',1]]){
+      const button=$(selector),n=(situationIndex+step+situationData.length)%situationData.length;
+      $('.situation-oval',button).textContent=n+1;$('.preview-title',button).textContent=situationData[n].title;button.setAttribute('aria-label',`View situation ${n+1}: ${situationData[n].title}`);
+    }
+    $$('.situation-dot').forEach((button,i)=>{button.setAttribute('aria-current',String(i===situationIndex));button.setAttribute('aria-label',`Situation ${i+1}: ${situationData[i].title}`);});
+    if(animate&&!reduced.matches){
+      panel.getAnimations().forEach(a=>a.cancel());
+      panel.animate([{opacity:.35,transform:`translateX(${direction*48}px) scale(.97)`},{opacity:1,transform:'translateX(0) scale(1)'}],{duration:650,easing:'cubic-bezier(.22,.7,.3,1)'});
+      $$('.spotlight-preview').forEach(n=>{n.getAnimations().forEach(a=>a.cancel());n.animate([{transform:`translateX(${direction*20}px)`},{transform:'translateX(0)'}],{duration:650,easing:'cubic-bezier(.22,.7,.3,1)'});});
+    }
+  }
+  $('.spotlight-previous').addEventListener('click',()=>showSituation(situationIndex-1,true,-1));
+  $('.spotlight-next').addEventListener('click',()=>showSituation(situationIndex+1));
+  $('.spotlight-arrow.previous').addEventListener('click',()=>showSituation(situationIndex-1,true,-1));
+  $('.spotlight-arrow.next').addEventListener('click',()=>showSituation(situationIndex+1));
+  $$('.situation-dot').forEach((b,i)=>b.addEventListener('click',()=>showSituation(i,true,i<situationIndex?-1:1)));
+  viewport.addEventListener('keydown',e=>{if(['ArrowLeft','ArrowRight'].includes(e.key)){e.preventDefault();const d=e.key==='ArrowLeft'?-1:1;showSituation(situationIndex+d,true,d);}});
+  let swipeStart;
+  viewport.addEventListener('pointerdown',e=>{swipeStart={x:e.clientX,y:e.clientY};});
+  viewport.addEventListener('pointerup',e=>{if(!swipeStart)return;const dx=e.clientX-swipeStart.x,dy=e.clientY-swipeStart.y;swipeStart=null;if(Math.abs(dx)>55&&Math.abs(dx)>Math.abs(dy)*1.4){const d=dx<0?1:-1;showSituation(situationIndex+d,true,d);}});
+  viewport.addEventListener('pointercancel',()=>{swipeStart=null;});
+  showSituation(0,false);
 
   // Vehicles C: retain the existing gallery controls inside the approved Paper frame.
   const gallery=$('.vehicles'),frame=document.createElement('div');frame.className='gallery-frame';
@@ -84,11 +115,17 @@
     {name:'Boats & ATVs',description:'For the water, the trail, and what comes next.',src:'assets/round-two/boat-viktor.jpg',alt:'Yacht viewed from above'},
     {name:'Aircraft',description:'Personal attention to aircraft ownership and registration.',src:'assets/img/propeller-aircraft.jpg',alt:'Propeller aircraft outside a hangar'}
   ];
+  // Fetch and decode once, before the visitor reaches the category controls.
+  const vehicleImages=vehicles.map(v=>{
+    const image=new Image();image.src=v.src;
+    return {image,ready:image.decode().then(()=>true,()=>false)};
+  });
   let selected=0, generation=0;
   async function selectVehicle(i,focus=false){
-    const v=vehicles[i],gen=++generation, image=new Image();image.src=v.src;
-    try{await image.decode();}catch{return;}
-    if(gen!==generation)return;
+    const v=vehicles[i],gen=++generation;
+    if(focus)$$('.vehicle-tabs button')[i].focus();
+    if(!await vehicleImages[i].ready || gen!==generation)return;
+    if(i===selected)return;
     selected=i;
     const picture=$('.gallery-image');
     picture.getAnimations().forEach(a=>a.cancel());
@@ -96,8 +133,9 @@
       const outgoing=picture.cloneNode(false);outgoing.classList.add('gallery-outgoing');
       outgoing.removeAttribute('role');outgoing.removeAttribute('aria-label');outgoing.setAttribute('aria-hidden','true');
       $$('.gallery-outgoing').forEach(n=>n.remove());picture.after(outgoing);
-      outgoing.animate([{opacity:1},{opacity:0}],{duration:700,easing:'ease-in-out',fill:'forwards'}).finished.then(()=>outgoing.remove()).catch(()=>outgoing.remove());
+      outgoing.animate([{opacity:1},{opacity:0}],{duration:450,easing:'ease-out',fill:'forwards'}).finished.then(()=>outgoing.remove()).catch(()=>outgoing.remove());
       picture.animate([{transform:'scale(1.035)'},{transform:'scale(1)'}],{duration:1100,easing:'cubic-bezier(.2,.65,.3,1)'});
+      $('.gallery-tooltip').getAnimations().forEach(a=>a.cancel());
       $('.gallery-tooltip').animate([{opacity:.35,transform:'translateY(8px)'},{opacity:1,transform:'translateY(0)'}],{duration:550,easing:'ease-out'});
     }
     picture.style.backgroundImage=`url("${v.src}")`;
@@ -112,14 +150,20 @@
   });
   $('.gallery-photo').addEventListener('click',e=>{const v=vehicles[selected];$('#lightbox img').src=v.src;$('#lightbox img').alt=v.alt;$('.lightbox-caption').textContent=v.name;openDialog($('#lightbox'),e.currentTarget);});
 
-  // Keep the original live letter accessible; three visual slices articulate its actual creases.
+  // One live, readable letter settles like stationery placed on a desk.
   const sheet=$('.letter-sheet'),stage=document.createElement('div');stage.className='letter-stage';sheet.before(stage);stage.append(sheet);
-  const visual=document.createElement('div');visual.className='letter-visual';visual.setAttribute('aria-hidden','true');visual.inert=true;
-  ['top','middle','bottom'].forEach(part=>{
-    const clone=sheet.cloneNode(true);clone.classList.add('letter-piece','piece-'+part);clone.removeAttribute('id');
-    $$('[id]',clone).forEach(n=>n.removeAttribute('id'));$$('a',clone).forEach(a=>{a.removeAttribute('href');a.tabIndex=-1;});visual.append(clone);
-  });stage.append(visual);
-  const top=$('.piece-top'),bottom=$('.piece-bottom');
+  let letterEntrance;
+  const letterObserver=new IntersectionObserver(entries=>{
+    if(!entries.some(e=>e.isIntersecting))return;
+    letterObserver.disconnect();
+    if(reduced.matches)return;
+    letterEntrance=sheet.animate([
+      {transform:`translate3d(0,${mobile.matches?100:210}px,0) rotate(5.5deg)`},
+      {transform:'translate3d(0,0,0) rotate(0deg)'}
+    ],{duration:2400,easing:'cubic-bezier(.22,.65,.3,1)'});
+  },{threshold:0,rootMargin:'0px 0px -38% 0px'});
+  letterObserver.observe(stage);
+  reduced.addEventListener('change',()=>{if(reduced.matches)letterEntrance?.cancel();});
   let scheduled=false;
   function draw(){
     scheduled=false;
@@ -132,16 +176,14 @@
       $('.center-stripes').style.clipPath=`inset(0 0 ${(1-clamp((sequence-.08)/.38))*100}% 0)`;
       for(const side of ['left','right']){
         const t=clamp((sequence-(side==='left'?.16:.53))/.26), column=$('.column-'+side);
-        column.style.opacity=String(t);
-        column.style.transform=`translate3d(0,${(1-t)*95}px,0)`;
+        // Travel from below the viewport at full opacity, then hold the shared title line.
+        const officeClearance=side==='right'?$('.office').offsetHeight+32:0;
+        const travel=innerHeight-column.offsetTop+officeClearance+2;
+        column.style.opacity='1';
+        column.style.transform=`translate3d(0,${(1-t)*travel}px,0)`;
       }
-      const r=stage.getBoundingClientRect();const p=clamp((innerHeight*.85-r.top)/(innerHeight*.65));
-      const angle=(1-p)*12;
-      top.style.transform=`rotateX(${-angle}deg)`;bottom.style.transform=`rotateX(${angle}deg)`;
-      top.style.filter=`brightness(${1-(1-p)*.065})`;bottom.style.filter=`brightness(${1-(1-p)*.10})`;
-      sheet.style.opacity=p>.995?'1':'0';visual.style.visibility=p>.995?'hidden':'visible';
-    }else{sheet.style.opacity='1';visual.style.visibility='hidden';$('.vehicle-track').style.transform='none';$$('.montana-column').forEach(n=>{n.style.opacity='1';n.style.transform='none';});$('.center-stripes').style.clipPath='none';}
-    updateCards();
+    }else{$('.vehicle-track').style.transform='none';$$('.montana-column').forEach(n=>{n.style.opacity='1';n.style.transform='none';});$('.center-stripes').style.clipPath='none';}
+
   }
   function requestDraw(){if(!scheduled){scheduled=true;requestAnimationFrame(draw);}}
   addEventListener('scroll',requestDraw,{passive:true});addEventListener('resize',requestDraw);reduced.addEventListener('change',requestDraw);

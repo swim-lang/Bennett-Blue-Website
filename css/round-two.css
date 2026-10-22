@@ -99,3 +99,55 @@ dialog{border:0;max-width:none;max-height:none;margin:auto;padding:0}dialog::bac
 @media(min-width:600px) and (max-width:900px){.vehicles{padding-inline:60px}.gallery-photo{aspect-ratio:5/3}}
 @media(prefers-reduced-motion:reduce){.gallery-diagonal path{stroke-dashoffset:0;transition:none}}
 @media(min-width:901px){.gallery-tooltip>div:first-child{font-size:calc(24 * var(--u));line-height:calc(30 * var(--u))}.gallery-tooltip>div:nth-child(2){font-size:calc(16 * var(--u));line-height:calc(24 * var(--u))}}
+/* Both titles settle on one horizontal line; the illustration sits above that line. */
+@media(min-width:901px){
+ .montana{align-items:start;padding-top:clamp(220px,34svh,400px)}
+ .montana-column{will-change:transform}
+ .montana .column-right .office{position:absolute!important;top:auto!important;bottom:calc(100% + 28px);left:0!important;margin:0}
+}
+@media(min-width:901px) and (max-height:740px){.montana{padding-top:190px}.montana .column-right .office{bottom:calc(100% + 20px)}}
+@media(prefers-reduced-motion:reduce) and (min-width:901px){.montana{padding-top:240px}}
+/* Offset the diagonal crossing from the photo corner to avoid a visual tangent. */
+.gallery-diagonal{transform:translateY(calc(90 * var(--u)))}
+@media(max-width:900px){.gallery-diagonal{transform:translateY(32px)}}
+
+/* The letter stays intact and readable throughout its entrance. */
+.letter-sheet{opacity:1;transition:none;transform-origin:50% 65%}
+/* Blue closing section exploration. */
+.firm,.contact{background-color:var(--color-blue)}
+.firm{background-image:none}
+/* Final closing palette: black behind the letter, Bennett blue footer. */
+.firm{background-color:var(--color-ink);background-image:radial-gradient(circle at 50% 45%,#2a2a2a 0%,var(--color-ink) 65%)}
+@media(max-width:900px){.firm{background-image:none}}
+/* Situations P — Paper's ivory spotlight and original oval seal asset. */
+.situations.spotlight{background:var(--color-ivory);color:var(--color-ink);padding:calc(180 * var(--u)) 0;gap:0;align-items:center}
+.spotlight>h2{font-family:var(--font-display);font-weight:300;font-size:calc(52 * var(--u));line-height:calc(58 * var(--u));text-align:center;text-transform:uppercase;width:calc(1000 * var(--u));max-width:calc(100% - 48px)}
+.spotlight-viewport{display:flex;align-items:center;justify-content:center;gap:calc(110 * var(--u));width:calc(1700 * var(--u));margin-top:calc(110 * var(--u));touch-action:pan-y}
+.situation-oval{display:flex;align-items:center;justify-content:center;flex-shrink:0;background:url('../assets/round-two/situation-oval.svg') center/contain no-repeat;font-family:var(--font-display);font-weight:300}
+.spotlight-current{display:flex;flex-direction:column;align-items:center;gap:calc(30 * var(--u));width:calc(620 * var(--u));flex-shrink:0;text-align:center}
+.spotlight-current>.situation-oval{width:calc(360 * var(--u));height:calc(188 * var(--u));font-size:calc(100 * var(--u));line-height:1}
+.spotlight-current h3{font-family:var(--font-body);font-size:calc(32 * var(--u));line-height:calc(40 * var(--u))}
+.spotlight-current p{font-size:calc(20 * var(--u));line-height:calc(32 * var(--u));width:calc(560 * var(--u));min-height:calc(96 * var(--u))}
+.spotlight-preview{display:flex;flex-direction:column;align-items:center;gap:calc(22 * var(--u));width:calc(300 * var(--u));flex-shrink:0;text-align:center;opacity:.3;transition:opacity .25s}
+.spotlight-preview:hover,.spotlight-preview:focus-visible{opacity:.7}
+.spotlight-preview>.situation-oval{width:calc(200 * var(--u));height:calc(104 * var(--u));font-size:calc(56 * var(--u));line-height:1}
+.preview-title{font-size:calc(20 * var(--u));line-height:calc(26 * var(--u))}
+.spotlight-controls{display:flex;align-items:center;gap:calc(22 * var(--u));margin-top:calc(90 * var(--u))}
+.situation-dot{min-height:44px;display:flex;align-items:center;opacity:.3;transition:opacity .25s}
+.situation-dot[aria-current=true],.situation-dot:hover,.situation-dot:focus-visible{opacity:1}
+.situation-dot .situation-oval{width:calc(56 * var(--u));height:calc(29 * var(--u));font-size:calc(15 * var(--u));line-height:1}
+.spotlight-arrow{font-size:20px;min-height:44px;min-width:32px;text-align:center}
+@media(max-width:900px){
+ .situations.spotlight{padding:96px 0}
+ .spotlight>h2{font-size:34px;line-height:38px;width:640px;max-width:calc(100% - 48px)}
+ .spotlight-viewport{width:100%;margin-top:56px;gap:0}
+ .spotlight-preview{display:none}
+ .spotlight-current{width:100%;padding:0 24px;gap:24px}
+ .spotlight-current>.situation-oval{width:240px;height:126px;font-size:70px}
+ .spotlight-current h3{font-size:26px;line-height:32px}
+ .spotlight-current p{font-size:18px;line-height:28px;width:100%;max-width:560px;min-height:168px}
+ .spotlight-controls{gap:8px;margin-top:40px;max-width:100%;padding:0 8px}
+ .situation-dot .situation-oval{width:38px;height:25px;font-size:15px}
+ .spotlight-arrow{min-width:24px}
+}
+@media(max-width:370px){.spotlight-controls{gap:4px}.situation-dot .situation-oval{width:36px}}
