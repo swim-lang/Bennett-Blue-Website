@@ -25,5 +25,5 @@
 /* Treat the four service introductions as paragraph copy. */
 .working [data-paper="4IP-1"],.working [data-paper="4IT-1"],.working [data-paper="4IX-1"],.working [data-paper="4J1-1"]{font-size:calc(18 * var(--u));line-height:calc(29 * var(--u));font-weight:400}
 /* A single quieter scale for the five section headings. */
-.our-firm-page :is([data-paper="4AC-1"],[data-paper="4AJ-1"],[data-paper="4C6-1"],[data-paper="4D2-1"],[data-paper="4IL-1"]){font-family:var(--font-display);font-weight:300;font-size:calc(44.2 * var(--u));line-height:calc(49.3 * var(--u))}
-@media(max-width:900px){.our-firm-page :is([data-paper="4AC-1"],[data-paper="4AJ-1"],[data-paper="4C6-1"],[data-paper="4D2-1"],[data-paper="4IL-1"]){font-size:32.3px;line-height:1.12}}
+.our-firm-page :is([data-paper="4AC-1"],[data-paper="4AJ-1"],[data-paper="4C6-1"],[data-paper="4D2-1"],[data-paper="4IL-1"]){font-family:var(--font-display);font-weight:300;font-size:calc(39 * var(--u));line-height:calc(43.5 * var(--u))}
+@media(max-width:900px){.our-firm-page :is([data-paper="4AC-1"],[data-paper="4AJ-1"],[data-paper="4C6-1"],[data-paper="4D2-1"],[data-paper="4IL-1"]){font-size:28.5px;line-height:1.12}}
