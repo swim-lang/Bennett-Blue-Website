@@ -22,3 +22,5 @@
 .our-firm-page .story,.our-firm-page .people,.our-firm-page .garage,.our-firm-page .montana-home,.our-firm-page .working,.firm-page .contact{border-top-left-radius:50% var(--section-arc);border-top-right-radius:50% var(--section-arc);margin-top:calc(-1 * var(--section-arc))}
 .working [data-paper="4IP-1"],.working [data-paper="4IT-1"],.working [data-paper="4IX-1"],.working [data-paper="4J1-1"]{font-size:calc(20 * var(--u));line-height:calc(32 * var(--u))}
 @media(max-width:900px){.working [data-paper="4IP-1"],.working [data-paper="4IT-1"],.working [data-paper="4IX-1"],.working [data-paper="4J1-1"]{font-size:18px;line-height:28px}}
+/* Treat the four service introductions as paragraph copy. */
+.working [data-paper="4IP-1"],.working [data-paper="4IT-1"],.working [data-paper="4IX-1"],.working [data-paper="4J1-1"]{font-size:calc(18 * var(--u));line-height:calc(29 * var(--u));font-weight:400}
