@@ -120,3 +120,8 @@ for i,url in enumerate(urls):
 (OUT/'css/paper.css').write_text(css)
 (OUT/'index.html').write_text(output)
 print('Built exact Paper markup,',len(CSS),'style rules;',len(urls),'image fills')
+
+# Opening storyboard integration.
+opening_bootstrap="<script>if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&(!location.hash||location.hash==='#hero')){document.documentElement.classList.add('opening-pending');setTimeout(()=>document.documentElement.classList.remove('opening-pending'),4500);}</script>"
+page=(OUT/"index.html").read_text().replace("</head>",opening_bootstrap+"</head>").replace("</body>",'<script src="js/opening.js"></script></body>')
+(OUT/"index.html").write_text(page)

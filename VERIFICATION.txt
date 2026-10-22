@@ -50,3 +50,11 @@ Situations P spotlight — October 21, 2026
 - No overflow at 320, 390, 768, 1024, 1440px. Desktop/mobile screenshots reviewed.
 - Letter now uses one intact sheet with a 2.4s slide/rotation, delayed until in view.
 - Closing palette: black behind letter, blue footer. Gallery photos preload.
+
+Opening storyboard A — October 21, 2026
+- Saved native Paper band storyboard JSX. Textured ivory opening uses the same local paper grain.
+- Blue band enters at 0.3s, seal settles at 0.7s, band expands at 1.1s,
+  real hero handoff at 1.6s, staggered vehicle names and header complete around 2.3s.
+- Seal overlay is measured against the real hero seal for a continuous handoff.
+- Desktop natural playback releases overlay, inert state and scrolling; mobile fits at390px.
+- Skip control, reduced motion and direct section links verified. No script errors.

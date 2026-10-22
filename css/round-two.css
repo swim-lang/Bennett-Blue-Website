@@ -151,3 +151,20 @@ dialog{border:0;max-width:none;max-height:none;margin:auto;padding:0}dialog::bac
  .spotlight-arrow{min-width:24px}
 }
 @media(max-width:370px){.spotlight-controls{gap:4px}.situation-dot .situation-oval{width:36px}}
+/* Tactile uncoated paper: tiled grain and fibers sit behind ink and photographs. */
+.montana,.situations.spotlight,.vehicles,.letter-sheet,.content-dialog{
+ background-image:url('../assets/round-two/paper-grain.svg');
+ background-size:600px 600px;
+ background-repeat:repeat;
+ background-blend-mode:multiply;
+}
+/* Opening storyboard A: textured stationery, blue band, fixed seal, hero handoff. */
+.opening-pending .site-header,.opening-pending .hero-below,.opening-pending .vehicle-line,.opening-pending .hero-seal{opacity:0}
+.opening-pending::before{content:'';position:fixed;inset:0;z-index:999;background:var(--color-ivory) url('../assets/round-two/paper-grain.svg') repeat;background-size:600px;background-blend-mode:multiply;pointer-events:none;animation:opening-failsafe 0s 4.5s forwards}
+.opening-pending:has(.opening-overlay)::before{display:none}
+.opening-overlay{position:fixed;inset:0;z-index:1000;overflow:hidden;background:var(--color-ivory) url('../assets/round-two/paper-grain.svg') repeat;background-size:600px;background-blend-mode:multiply}
+.opening-band{position:absolute;left:0;width:100%;background:var(--color-blue);box-shadow:0 3px 6px #1616162e;transform:translateX(-101%)}
+.opening-seal{position:absolute;opacity:0}.opening-seal svg{width:100%;height:100%}
+.opening-skip{position:absolute;right:24px;bottom:20px;font-family:var(--font-body);font-size:13px;line-height:20px;letter-spacing:.08em;padding:10px;color:var(--color-ink);background:var(--color-ivory);border-radius:3px}
+@keyframes opening-failsafe{to{visibility:hidden}}
+@media(prefers-reduced-motion:reduce){.opening-overlay,.opening-pending::before{display:none}.opening-pending .site-header,.opening-pending .hero-below,.opening-pending .vehicle-line,.opening-pending .hero-seal{opacity:1}}
