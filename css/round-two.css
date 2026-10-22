@@ -209,3 +209,11 @@ dialog{border:0;max-width:none;max-height:none;margin:auto;padding:0}dialog::bac
 /* Use the same geometry for the first curve and its edge: no separate SVG seam. */
 .montana-stage{border-top:2.5px solid var(--color-ink)}
 .montana-stage>.section-oval-edge{display:none}
+
+/* Centered seal and four stationery pinstripes open like a pair of paper shutters. */
+.opening-overlay{background:none!important}
+.opening-shutter{position:absolute;left:0;width:100%;height:calc(50% + 1px);background:#161616 url('../assets/round-two/paper-grain.svg') repeat;background-size:600px;background-blend-mode:multiply;will-change:transform}
+.opening-top{top:0}.opening-bottom{bottom:0}
+.opening-rules{position:absolute;left:0;top:calc(50% - 9px);width:100%;display:grid;gap:4px}
+.opening-rules i{display:block;height:1px;background:var(--color-ivory);transform:scaleX(0);transform-origin:center}
+.opening-seal{z-index:2;will-change:transform;transform-origin:center}
