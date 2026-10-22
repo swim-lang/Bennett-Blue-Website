@@ -12,7 +12,9 @@ def convert(name):
    value=val[1:-1] if val[0] in '\"\'' else val
    value=value.replace('\\\"','\"')
    if val[0] not in '\"\'' and prop not in ['font-weight','opacity','flex-grow','flex-shrink','order','z-index']:value+='px'
-   if prop=='font-family':value='var(--font-display)' if 'Successor' in value else 'var(--font-body)'
+   if prop=='font-family' and not value.startswith('var('):
+    if 'Successor' in value:value='var(--font-display)'
+    elif 'Malamocco' in value:value='var(--font-body)'
    value=value.replace('#2C4A9B','var(--color-blue)')
    rules.append(prop+':'+value)
   return 'style="'+html.escape(';'.join(rules),quote=True)+'"'
@@ -80,11 +82,8 @@ for id,alt in [('4HD-1','Bennett office on Pine Street'),('4HJ-1','Historic view
 # Keep chosen stock imagery editorial, without implying personal ownership.
 cls(node('4HP-1'),'garage-car');cls(node('4HW-1'),'garage-bike')
 media=node('4CV-1');cls(media,'montana-film');media.clear();media.append(frag('<video muted loop playsinline preload="none" poster="assets/firm/montana-poster.jpg" aria-label="Aerial view of Montana mountains"><source data-src="assets/firm/montana.mp4" type="video/mp4"></video><button type="button" class="video-toggle" aria-label="Play Montana film">Play film</button>'))
-# The profile drawer follows the supplied open state. Unwritten personal anecdotes stay out.
+# Preserve the complete profile design, including explicitly marked draft details.
 modal=kids(profile.find('div'))[0];modal.name='dialog';modal['id']='profile-dialog';cls(modal,'profile-dialog');modal['aria-labelledby']='profile-name'
-for id in ['4GV-1','4GZ-1']:
- n=modal.find(attrs={'data-paper':id})
- if n:n.decompose()
 modal.find(attrs={'data-paper':'4GS-1'})['id']='profile-name'
 modal.find(attrs={'data-paper':'4GS-1'}).name='h2'
 for t in modal.find_all(string=lambda t:t and t.strip()=='Close'):

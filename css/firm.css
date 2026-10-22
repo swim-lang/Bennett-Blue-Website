@@ -6,3 +6,15 @@
 @media(prefers-reduced-motion:reduce){.firm-page .signature{clip-path:none}.license-card:hover,.license-card:hover .card-watermark{transform:none}}
 /* Canvas coordinates must not move the native dialog out of the viewport. */
 .profile-dialog{position:fixed;inset:0;margin:auto;height:fit-content}
+/* Match Paper's close-label alignment while retaining a generous hit area. */
+.profile-close{min-height:0}
+.profile-close::before{content:'';position:absolute;inset:-14px}
+@media(max-width:900px){
+ .profile-dialog [data-paper="4GV-1"]{gap:16px}
+ .profile-dialog [data-paper="4GY-1"]{font-size:18px;line-height:28px}
+ .profile-dialog [data-paper="4H2-1"],.profile-dialog [data-paper="4H5-1"],.profile-dialog [data-paper="4H8-1"]{gap:20px}
+}
+@media(max-width:900px){
+ .profile-dialog [data-paper="4H4-1"],.profile-dialog [data-paper="4H7-1"],.profile-dialog [data-paper="4HA-1"]{flex-shrink:0;white-space:nowrap}
+ .profile-dialog .profile-close{position:sticky;top:0;right:auto;align-self:flex-end;order:-1;margin-top:-45px;margin-bottom:-20px;padding:8px;background:var(--color-ivory);border-radius:20px}
+}
