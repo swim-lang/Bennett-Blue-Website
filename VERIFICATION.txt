@@ -66,3 +66,5 @@ B2 oval sections and spotlight transitions — October 21, 2026
 - Spotlight uses outgoing/incoming crossfades with gentle 32px movement.
 - All six slides maintain equal viewport height:376px desktop,342px at390px mobile.
 - Rapid selections clean up outgoing layers; no overflow at320,390,768,1440px.
+
+Paint A2: exact Paper colors and native oval assets; six choices, persisted selection, arrow keys/Escape/outside dismissal. Verified 320/390/768/1024/1440 widths, hero/footer palette, reload persistence. Open Graph PNG 1200x630 uses original wordmark. GitHub Pages preview is isolated under /preview/.
