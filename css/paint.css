@@ -17,3 +17,5 @@
 @media(min-width:901px) and (max-width:1200px){.desktop-nav{gap:18px}.paint-trigger{width:74px}.site-header{gap:14px}.paint-control{margin-left:0}}
 @media(max-width:900px){.site-header{gap:12px}.header-actions{margin-left:auto;order:1;gap:0}.paint-control{margin-left:0}.menu-toggle{order:2}.paint-trigger{width:72px;height:44px}.paint-panel{position:fixed;top:88px;right:20px;width:min(380px,calc(100vw - 40px));max-height:calc(100svh - 108px);padding:22px 22px 14px}.site-header>a:first-child svg{width:clamp(125px,36vw,160px)}}
 @media(prefers-reduced-motion:reduce){.hero,.contact,.opening-band,#mobile-menu{transition:none}}
+/* Keep secondary footer text legible across the paint palette. */
+.contact{--color-blue-grey:var(--color-ivory)}
