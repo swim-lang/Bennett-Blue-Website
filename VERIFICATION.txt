@@ -32,3 +32,12 @@ Responsive and scroll-motion refinement — October 21, 2026
 - Gallery crossfade animation observed; outgoing layer cleans up, lightbox image loads.
 - Mobile menu opens, Escape closes and restores focus. No browser script errors.
 - Letter motion preserved. Physical phone testing not performed.
+
+Vehicles C update — October 21, 2026
+- Read native Paper Vehicles C JSX and screenshot; saved design-source/vehicles-c.jsx.
+- Applied black frame, rounded image, inset caption and native diagonal SVG geometry.
+- Automatic 3.6-second upward stripe reveal observed progressing to completion.
+- Gallery tabs and lightbox still work; reduced motion shows the finished stripes.
+- No horizontal overflow at 320, 390, 768, 1024 and 1440px; no browser script errors.
+- Prior Montana copy revision verified: intro/CTA left, considered approach body right,
+  purely vertical entrances with right column hidden until the left has settled.

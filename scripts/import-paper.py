@@ -61,6 +61,9 @@ for i in [0,1]:parts[i].name='h2'
 for i in [0,2,3,4,5]:cls(parts[i],'reveal-left')
 for i in [1,6,7,8,9]:cls(parts[i],'reveal-right')
 link(parts[4],'#questions');link(parts[8],'#contact');parts[6]['role']='img';parts[6]['aria-label']='Bennett office at 124 W Pine Street'
+# Approved content refinement: introduction and CTA left, considered approach right.
+parts[7].string=parts[3].get_text()
+parts[3].decompose();parts[5].decompose()
 head,track,indicator=children(cards);cls(head,'situations-heading');cls(track,'cards-track');cls(indicator,'cards-indicator');children(head)[0].name='h2'
 track['tabindex']='0';track['aria-label']='Six ways Bennett can help. Scroll horizontally or use arrow keys.'
 for i,card in enumerate(children(track)):

@@ -13,7 +13,7 @@
   scrollStage.className='montana-stage';montana.before(scrollStage);scrollStage.append(montana);
   for(const side of ['left','right']){
     const column=document.createElement('div');column.className='montana-column column-'+side;
-    const order=side==='left'?['adv-title','adv-intro','adv-subtitle','adv-body','adv-link']:['office','company-title','company-body','company-cta','company-address'];
+    const order=side==='left'?['adv-title','adv-intro','adv-link']:['office','company-title','company-body','company-cta','company-address'];
     order.forEach(name=>column.append($('.'+name)));montana.append(column);
   }
 
@@ -60,6 +60,21 @@
   track.addEventListener('pointerup',endDrag);track.addEventListener('pointercancel',endDrag);
   // Consume vertical wheel gestures only inside the desktop rail, releasing at either end.
   track.addEventListener('wheel',e=>{if(!mobile.matches && Math.abs(e.deltaY)>Math.abs(e.deltaX)){const delta=e.deltaY*(e.deltaMode===1?16:1);const max=track.scrollWidth-track.clientWidth;if((delta>0&&track.scrollLeft<max-2)||(delta<0&&track.scrollLeft>2)){e.preventDefault();track.scrollLeft+=delta;}}},{passive:false});
+
+  // Vehicles C: retain the existing gallery controls inside the approved Paper frame.
+  const gallery=$('.vehicles'),frame=document.createElement('div');frame.className='gallery-frame';
+  $('.gallery-photo').before(frame);frame.append($('.gallery-photo'),$('.gallery-tooltip'));
+  $('.gallery-intro').hidden=true;
+  const diagonal=document.createElementNS('http://www.w3.org/2000/svg','svg');
+  diagonal.classList.add('gallery-diagonal');diagonal.setAttribute('viewBox','0 0 1440 1500');diagonal.setAttribute('aria-hidden','true');
+  for(let i=0;i<4;i++){
+    const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+    path.setAttribute('d',`M${436+i*18} 1500L${1302+i*18} 0`);path.setAttribute('pathLength','1');diagonal.append(path);
+  }
+  gallery.prepend(diagonal);
+  const galleryObserver=new IntersectionObserver(entries=>{
+    if(entries.some(e=>e.isIntersecting)){gallery.classList.add('diagonal-revealed');galleryObserver.disconnect();}
+  },{threshold:.16});galleryObserver.observe(gallery);
 
   const original=getComputedStyle($('.gallery-image')).backgroundImage.match(/url\(["']?(.*?)["']?\)/)?.[1];
   const vehicles=[
@@ -116,9 +131,9 @@
       const sequence=clamp(-b.top/(b.height-innerHeight));
       $('.center-stripes').style.clipPath=`inset(0 0 ${(1-clamp((sequence-.08)/.38))*100}% 0)`;
       for(const side of ['left','right']){
-        const t=clamp((sequence-(side==='left'?.18:.43))/.32), column=$('.column-'+side);
+        const t=clamp((sequence-(side==='left'?.16:.53))/.26), column=$('.column-'+side);
         column.style.opacity=String(t);
-        column.style.transform=`translate3d(${(1-t)*(side==='left'?-35:35)}px,${(1-t)*65}px,0)`;
+        column.style.transform=`translate3d(0,${(1-t)*95}px,0)`;
       }
       const r=stage.getBoundingClientRect();const p=clamp((innerHeight*.85-r.top)/(innerHeight*.65));
       const angle=(1-p)*12;
