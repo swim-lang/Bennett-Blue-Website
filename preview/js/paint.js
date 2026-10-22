@@ -2,7 +2,7 @@
   const paints = [
     ['blue','Bennett Blue','Our house colour','#2C4A9B'],
     ['red','Rosso Corsa',"Italy’s racing red",'#C4141B'],
-    ['green','British Racing Green',"Britain’s racing colour",'#0E3B2C'],
+    ['green','Vintage Olive','A classic touring green','#767D0B'],
     ['plum','Plum Crazy','Mopar muscle, 1970','#4B2A69'],
     ['orange','Hugger Orange',"The ’69 Camaro",'#D9531E'],
     ['grey','Nardo Grey','Named for the Nardò test track','#6B6E70']
