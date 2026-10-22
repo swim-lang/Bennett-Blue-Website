@@ -165,7 +165,6 @@ dialog{border:0;max-width:none;max-height:none;margin:auto;padding:0}dialog::bac
 .opening-overlay{position:fixed;inset:0;z-index:1000;overflow:hidden;background:var(--color-ivory) url('../assets/round-two/paper-grain.svg') repeat;background-size:600px;background-blend-mode:multiply}
 .opening-band{position:absolute;left:0;width:100%;background:var(--color-blue);box-shadow:0 3px 6px #1616162e;transform:translateX(-101%)}
 .opening-seal{position:absolute;opacity:0}.opening-seal svg{width:100%;height:100%}
-.opening-skip{position:absolute;right:24px;bottom:20px;font-family:var(--font-body);font-size:13px;line-height:20px;letter-spacing:.08em;padding:10px;color:var(--color-ink);background:var(--color-ivory);border-radius:3px}
 @keyframes opening-failsafe{to{visibility:hidden}}
 @media(prefers-reduced-motion:reduce){.opening-overlay,.opening-pending::before{display:none}.opening-pending .site-header,.opening-pending .hero-below,.opening-pending .vehicle-line,.opening-pending .hero-seal{opacity:1}}
 /* Clear service heading and an ink interlude between the paper sections. */
@@ -191,3 +190,10 @@ dialog{border:0;max-width:none;max-height:none;margin:auto;padding:0}dialog::bac
 .spotlight-outgoing{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:inherit;pointer-events:none}
 .spotlight-measure{position:absolute!important;visibility:hidden!important;pointer-events:none;top:0;left:0}
 @media(max-width:900px){.hero{padding-bottom:calc(72px + var(--section-arc))}}
+
+/* Slightly quieter numerals; carry B2's curved boundary into the blue footer. */
+.spotlight-current>.situation-oval{font-size:calc(84 * var(--u))}
+.spotlight-preview>.situation-oval{font-size:calc(48 * var(--u))}
+.situation-dot .situation-oval{font-size:calc(13 * var(--u))}
+.contact{position:relative;border-top-left-radius:50% var(--section-arc);border-top-right-radius:50% var(--section-arc);margin-top:calc(-1 * var(--section-arc));overflow:clip;z-index:5}
+@media(max-width:900px){.spotlight-current>.situation-oval{font-size:60px}.situation-dot .situation-oval{font-size:13px}.contact{padding-top:calc(64px + var(--section-arc))}}

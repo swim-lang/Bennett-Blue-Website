@@ -115,7 +115,7 @@
   }
   document.fonts.ready.then(sizeSpotlight);addEventListener('resize',sizeSpotlight);
   // B2's edge geometry, kept separate from the pinned Montana content.
-  [scrollStage,situations,$('.vehicles'),$('.firm')].forEach(section=>{
+  [scrollStage,situations,$('.vehicles'),$('.firm'),$('.contact')].forEach(section=>{
     const edge=document.createElementNS('http://www.w3.org/2000/svg','svg');edge.classList.add('section-oval-edge');edge.setAttribute('viewBox','0 0 1440 72');edge.setAttribute('preserveAspectRatio','none');edge.setAttribute('aria-hidden','true');
     edge.innerHTML='<path d="M0 65.25 A720 64 0 0 1 1440 65.25" fill="none" stroke="#161616" stroke-width="2.5"/>';section.append(edge);
   });

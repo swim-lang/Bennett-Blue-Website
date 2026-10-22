@@ -4,22 +4,20 @@
   const page=document.querySelector('#page'),hero=document.querySelector('.hero');
   const reduced=matchMedia('(prefers-reduced-motion: reduce)');
   const overlay=document.createElement('div');overlay.className='opening-overlay';
-  overlay.innerHTML='<div class="opening-band" aria-hidden="true"></div><div class="opening-seal" aria-hidden="true"></div><button type="button" class="opening-skip">Skip intro</button>';
+  overlay.innerHTML='<div class="opening-band" aria-hidden="true"></div><div class="opening-seal" aria-hidden="true"></div>';
   document.body.append(overlay);
-  const band=overlay.querySelector('.opening-band'),seal=overlay.querySelector('.opening-seal'),skip=overlay.querySelector('button');
+  const band=overlay.querySelector('.opening-band'),seal=overlay.querySelector('.opening-seal');
   let done=false,animations=[];
   const oldOverflow=document.body.style.overflow;
   const oldInert=page.inert;
   function finish(){
     if(done)return;done=true;
-    const restoreFocus=document.activeElement===skip;
     animations.forEach(a=>a.cancel());overlay.remove();page.inert=oldInert;document.body.style.overflow=oldOverflow;
     root.classList.remove('opening-pending');
-    if(restoreFocus)document.querySelector('.site-header a').focus({preventScroll:true});
     removeEventListener('keydown',escape);removeEventListener('resize',finish);reduced.removeEventListener('change',finish);
   }
   function escape(e){if(e.key==='Escape')finish();}
-  skip.addEventListener('click',finish);addEventListener('keydown',escape);addEventListener('resize',finish);reduced.addEventListener('change',finish);
+  addEventListener('keydown',escape);addEventListener('resize',finish);reduced.addEventListener('change',finish);
   setTimeout(finish,4500); // Always release the page, even if a font or animation fails.
   async function play(){
     await Promise.race([document.fonts.ready,new Promise(r=>setTimeout(r,500))]);
