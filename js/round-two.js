@@ -8,16 +8,14 @@
   const hero = $('.hero');
   function mobileLines(){ $$('.vehicle-line').forEach((n,i)=>{if(i%5===1)n.textContent=mobile.matches?'Motorhomes\n& RVs':'Motorhomes & RVs';}); }
   mobileLines();mobile.addEventListener('change',mobileLines);
-  let paused = false;
-  $('.motion-toggle').addEventListener('click', e => {
-    paused = !paused; hero.classList.toggle('is-paused', paused);
-    e.currentTarget.setAttribute('aria-pressed', String(paused));
-    e.currentTarget.setAttribute('aria-label', paused ? 'Play vehicle animation' : 'Pause vehicle animation');
-    e.currentTarget.textContent = paused ? '▷' : 'Ⅱ';
-  });
-  new IntersectionObserver(([entry]) => {
-    $('.vehicle-track').style.animationPlayState = entry.isIntersecting && !paused ? 'running' : 'paused';
-  }).observe(hero);
+  $('.motion-toggle').hidden = true;
+  const montana=$('.montana'), scrollStage=document.createElement('div');
+  scrollStage.className='montana-stage';montana.before(scrollStage);scrollStage.append(montana);
+  for(const side of ['left','right']){
+    const column=document.createElement('div');column.className='montana-column column-'+side;
+    const order=side==='left'?['adv-title','adv-intro','adv-subtitle','adv-body','adv-link']:['office','company-title','company-body','company-cta','company-address'];
+    order.forEach(name=>column.append($('.'+name)));montana.append(column);
+  }
 
   // Native dialogs supply focus containment, Escape dismissal and focus restoration.
   let dialogTrigger = null;
@@ -77,7 +75,17 @@
     try{await image.decode();}catch{return;}
     if(gen!==generation)return;
     selected=i;
-    $('.gallery-image').style.backgroundImage=`url("${v.src}")`;
+    const picture=$('.gallery-image');
+    picture.getAnimations().forEach(a=>a.cancel());
+    if(!reduced.matches){
+      const outgoing=picture.cloneNode(false);outgoing.classList.add('gallery-outgoing');
+      outgoing.removeAttribute('role');outgoing.removeAttribute('aria-label');outgoing.setAttribute('aria-hidden','true');
+      $$('.gallery-outgoing').forEach(n=>n.remove());picture.after(outgoing);
+      outgoing.animate([{opacity:1},{opacity:0}],{duration:700,easing:'ease-in-out',fill:'forwards'}).finished.then(()=>outgoing.remove()).catch(()=>outgoing.remove());
+      picture.animate([{transform:'scale(1.035)'},{transform:'scale(1)'}],{duration:1100,easing:'cubic-bezier(.2,.65,.3,1)'});
+      $('.gallery-tooltip').animate([{opacity:.35,transform:'translateY(8px)'},{opacity:1,transform:'translateY(0)'}],{duration:550,easing:'ease-out'});
+    }
+    picture.style.backgroundImage=`url("${v.src}")`;
     $('.gallery-image').setAttribute('aria-label',v.alt);
     $('.gallery-photo').setAttribute('aria-label',`Enlarge ${v.name} photograph`);
     $('.gallery-tooltip').children[0].textContent=v.name;$('.gallery-tooltip').children[1].textContent=v.description;
@@ -102,21 +110,22 @@
     scheduled=false;
     const u=innerWidth/1440;
     if(!mobile.matches&&!reduced.matches){
-      const b=$('.montana').getBoundingClientRect();
-      const stripe=clamp((innerHeight-b.top)/(b.height+innerHeight*.15));
-      $('.center-stripes').style.clipPath=`inset(0 0 ${(1-stripe)*100}% 0)`;
-      $$('.reveal-left,.reveal-right').forEach(el=>{
-        // Source top positions give each column its own entrance, without moving the layout.
-        const y=b.top+parseFloat(getComputedStyle(el).top);
-        const p=clamp((innerHeight*.93-y)/(innerHeight*.33));
-        el.style.opacity=String(p);el.style.transform=`translate3d(0,${(1-p)*48*u}px,0)`;
-      });
+      const heroBox=hero.getBoundingClientRect();
+      $('.vehicle-track').style.transform=`translate3d(0,${-clamp(-heroBox.top/heroBox.height)*parseFloat(getComputedStyle($('.vehicle-line')).height)*1.3}px,0)`;
+      const b=scrollStage.getBoundingClientRect();
+      const sequence=clamp(-b.top/(b.height-innerHeight));
+      $('.center-stripes').style.clipPath=`inset(0 0 ${(1-clamp((sequence-.08)/.38))*100}% 0)`;
+      for(const side of ['left','right']){
+        const t=clamp((sequence-(side==='left'?.18:.43))/.32), column=$('.column-'+side);
+        column.style.opacity=String(t);
+        column.style.transform=`translate3d(${(1-t)*(side==='left'?-35:35)}px,${(1-t)*65}px,0)`;
+      }
       const r=stage.getBoundingClientRect();const p=clamp((innerHeight*.85-r.top)/(innerHeight*.65));
       const angle=(1-p)*12;
       top.style.transform=`rotateX(${-angle}deg)`;bottom.style.transform=`rotateX(${angle}deg)`;
       top.style.filter=`brightness(${1-(1-p)*.065})`;bottom.style.filter=`brightness(${1-(1-p)*.10})`;
       sheet.style.opacity=p>.995?'1':'0';visual.style.visibility=p>.995?'hidden':'visible';
-    }else{sheet.style.opacity='1';visual.style.visibility='hidden';}
+    }else{sheet.style.opacity='1';visual.style.visibility='hidden';$('.vehicle-track').style.transform='none';$$('.montana-column').forEach(n=>{n.style.opacity='1';n.style.transform='none';});$('.center-stripes').style.clipPath='none';}
     updateCards();
   }
   function requestDraw(){if(!scheduled){scheduled=true;requestAnimationFrame(draw);}}

@@ -29,3 +29,48 @@ dialog{border:0;max-width:none;max-height:none;margin:auto;padding:0}dialog::bac
 .office{background-image:url(../assets/round-two/office-paper.png)}
 @media(max-width:370px){.vehicle-list{font-size:36px;line-height:40px}.hero-seal{top:146px}}
 .site-header>a:first-child{display:flex;align-items:center;line-height:0}
+/* Scroll follows the reader; soft masks replace the rolling billboard's hard edge. */
+.vehicle-track{animation:none}
+.gallery-photo{isolation:isolate;overflow:hidden}
+.gallery-image{transition:none;will-change:transform}
+.gallery-outgoing{position:absolute!important;inset:0!important;pointer-events:none;z-index:1}
+.montana-stage{background:var(--color-ivory);position:relative;width:100%}
+.montana-column{display:contents}
+@media(min-width:901px){
+ .hero{min-height:100svh;gap:clamp(24px,4vh,56px);padding-top:clamp(24px,4vh,40px);padding-bottom:clamp(32px,5vh,64px);justify-content:space-between}
+ .billboard{--row:min(7.23vw,9.6svh);height:calc(var(--row)*5 + 24px);padding-block:12px;flex-shrink:0}
+ .vehicle-list{font-size:calc(var(--row)*1.038);line-height:var(--row);height:calc(var(--row)*5);mask-image:linear-gradient(to bottom,transparent,#000 6%,#000 92%,transparent)}
+ .vehicle-line{height:var(--row)}
+ .hero-below{gap:clamp(16px,2.2vh,24px)}
+ .hero-below>div:nth-child(2){font-size:clamp(18px,1.46vw,24px);line-height:1.5}
+ .montana-stage{height:310svh}
+ .montana{height:100svh;min-height:650px;position:sticky;top:0;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;gap:clamp(100px,14vw,220px);align-items:center;padding:60px max(7vw,48px)}
+ .montana-column{display:flex;flex-direction:column;gap:clamp(16px,2.5vh,28px);position:relative;min-width:0;will-change:transform,opacity}
+ .montana-column>*{position:relative!important;top:auto!important;left:auto!important;width:100%!important;opacity:1!important;transform:none!important}
+ .column-left{text-align:right;align-items:flex-end}.column-right{text-align:left;align-items:flex-start}
+ .montana .adv-title,.montana .company-title{font-size:clamp(34px,3.6vw,58px);line-height:1.1}
+ .montana .adv-intro,.montana .adv-body,.montana .company-body{font-size:clamp(17px,1.32vw,22px);line-height:1.5;max-width:400px}
+ .montana .adv-subtitle{font-size:clamp(21px,1.6vw,26px);line-height:1.3;margin-top:12px}
+ .montana .adv-link,.montana .company-cta{width:fit-content!important}
+ .montana .office{width:clamp(140px,14vw,240px)!important;height:auto;aspect-ratio:240/161;background-size:contain;background-repeat:no-repeat}
+ .montana .company-address{font-size:clamp(13px,1vw,16px);line-height:1.5;white-space:normal}
+ .center-stripes{top:0!important;left:calc(50% - 14px)!important;width:28px!important;height:100%!important}
+}
+@media(min-width:901px) and (max-height:740px){
+ .hero{gap:20px}.billboard{--row:min(7.23vw,8svh)}
+ .montana{padding-block:32px}.montana-column{gap:15px}.montana .office{width:120px!important}.montana .adv-title,.montana .company-title{font-size:34px}.montana .adv-intro,.montana .adv-body,.montana .company-body{font-size:16px}.montana .adv-subtitle{margin-top:0}
+}
+@media(max-width:900px){
+ .hero{min-height:100svh}.montana-stage{height:auto}.montana{overflow:hidden}
+ .montana-column>*{position:relative;left:auto;top:auto;width:auto;text-align:left}
+ .gallery-outgoing{height:100%!important}
+}
+@media(min-width:600px) and (max-width:900px){
+ .hero{padding-inline:40px}.hero-below{max-width:600px}.hero-cta{align-self:center}
+ .montana{padding-left:120px;padding-right:80px}.center-stripes{left:60px!important}
+ .vehicles{padding-inline:60px}.letter-sheet{padding:64px}.contact{padding-inline:48px}
+}
+@media(prefers-reduced-motion:reduce){
+ .montana-stage{height:auto}.montana{position:relative;height:auto;min-height:0;padding-block:100px}
+ .montana-column{opacity:1!important;transform:none!important}.vehicle-track{transform:none!important}
+}

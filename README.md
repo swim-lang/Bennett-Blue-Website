@@ -32,3 +32,6 @@ The initial car image matches Paper's BB Garage photograph. The office illustrat
 Contact actions use the supplied phone number. Internal navigation points to the appropriate homepage sections. Separate attorney, service, privacy, and legal pages are not part of this prototype; the footer's policy labels remain noninteractive until those pages exist.
 
 This is a local review build, not a production deployment.
+
+### Scroll and responsive refinement
+The desktop hero now uses viewport-aware sizing. Vehicle type moves with page scroll through a soft edge mask. The Montana section is wrapped in a 310svh scroll stage with a sticky ivory viewport: blank entrance, stripe draw, left column, then right column. The stripes are clipped to that section. Mobile and reduced-motion layouts use natural content flow. Gallery selections preload their image and crossfade with a restrained scale change. Original font files and letter treatment remain in use.

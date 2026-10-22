@@ -20,3 +20,15 @@ No page JavaScript errors in interaction checks; no HTTP resource errors in fina
 Local HTML/CSS asset references all resolve. node --check and git diff --check pass.
 
 Limitations: Browser emulation, not physical phone testing. Mobile sections without supplied artboards are responsive adaptations. Exact pixel equivalence is not claimed; browser font rasterization and interactive states differ from static Paper exports. Photography usage and font licenses remain as supplied. No external deployment.
+
+Responsive and scroll-motion refinement — October 21, 2026
+- Desktop hero fills viewport at 1024x768, 1440x900, and 1920x1080.
+- No document horizontal overflow at 320, 390, 768, 900, 1024, 1440, 1920px.
+- Exact Successor Trial and Malamocco Unlicensed Trial font files loaded.
+- Vehicle text follows page scroll with masked edges; automatic loop disabled.
+- Ivory section enters blank, draws pinstripes, then reveals left/right columns.
+- Measured stripe section bottom and following section top coincide at exit.
+- Mobile uses natural document flow; reduced motion removes pinned sequence.
+- Gallery crossfade animation observed; outgoing layer cleans up, lightbox image loads.
+- Mobile menu opens, Escape closes and restores focus. No browser script errors.
+- Letter motion preserved. Physical phone testing not performed.
